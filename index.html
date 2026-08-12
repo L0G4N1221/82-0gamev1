@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🏀 82-0: Ultimate Edition 3.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #070b15;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 16px;
+            background-image: 
+                radial-gradient(ellipse at 10% 20%, rgba(255, 179, 71, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(108, 92, 231, 0.05) 0%, transparent 50%);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(160deg, #0f1629, #151d35);
+            border-radius: 28px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ffd700, #f7971e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .logo .version {
+            font-size: 0.6rem;
+            color: #4a5a7a;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            -webkit-text-fill-color: #4a5a7a;
+        }
+        .header-stats {
+            display: flex;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 6px 18px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .header-stat { text-align: center; }
+        .header-stat .label { color: #4a5a7a; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .header-stat .value { color: #e8eeff; font-weight: 700; font-size: 1rem; }
+        .header-stat .value.gold { color: #ffd700; }
+
+        /* PLAYER NAME INPUT */
+        .player-name-input {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .player-name-input label {
+            color: #b0c8ff;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .player-name-input input {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 8px 18px;
+            color: #e8eeff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            flex: 1;
+            min-width: 150px;
+            transition: 0.2s;
+        }
+        .player-name-input input:focus {
+            outline: none;
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.05);
+        }
+        .player-name-input input::placeholder {
+            color: #4a5a7a;
+        }
+        .player-name-input .name-status {
+            color: #4a5a7a;
+            font-size: 0.7rem;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 4px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 8px 18px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: #4a5a7a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.8rem;
+        }
+        .tab:hover { color: #b0c8ff; background: rgba(255, 255, 255, 0.04); }
+        .tab.active { background: rgba(255, 215, 0, 0.12); color: #ffd700; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SPIN AREA */
+        .spin-area {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .spin-result {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e8eeff;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+        .spin-result .team { color: #ffb347; }
+        .spin-result .era { color: #6fc3ff; }
+        .spin-btn {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            border: none;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #0a0e1a;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 30px rgba(247, 151, 30, 0.2);
+            margin-top: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        .spin-btn:hover:not(:disabled) { transform: scale(1.04); box-shadow: 0 0 50px rgba(247, 151, 30, 0.3); }
+        .spin-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .spin-wheel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 179, 71, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .spin-wheel.active {
+            opacity: 1;
+            animation: spinWheel 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+        }
+        @keyframes spinWheel {
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); border-color: #ffb347; }
+            50% { transform: translate(-50%, -50%) rotate(720deg) scale(1.4); border-color: #ffd700; box-shadow: 0 0 80px rgba(255, 215, 0, 0.2); }
+            100% { transform: translate(-50%, -50%) rotate(1440deg) scale(0); border-color: #ffb347; opacity: 0; }
+        }
+
+        .player-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 14px 0 4px;
+            min-height: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        .player-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #d0ddff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+        .player-card:hover:not(.disabled) { background: rgba(255, 215, 0, 0.1); transform: scale(1.04); border-color: #ffb347; }
+        .player-card .pos { color: #ffb347; font-size: 0.7rem; background: rgba(255, 255, 255, 0.06); padding: 2px 10px; border-radius: 20px; }
+        .player-card.disabled { opacity: 0.3; cursor: not-allowed; }
+        .player-card .card-stats { font-size: 0.6rem; color: #5a6a8a; }
+        .player-card .player-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2642, #2a3a5e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+        .no-players { color: #3a4a6a; font-style: italic; padding: 10px; }
+
+        /* LINEUP */
+        .lineup {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 16px 0 20px;
+        }
+        .position-slot {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 12px 6px;
+            text-align: center;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+        .position-slot.filled { border-color: #ffb347; background: rgba(255, 179, 71, 0.06); }
+        .position-slot .pos-label { color: #4a5a7a; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .position-slot .player-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2642, #2a3a5e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            margin-bottom: 4px;
+        }
+        .position-slot .player-name { color: #fff; font-weight: 700; font-size: 0.85rem; }
+        .position-slot .player-team { color: #5a6a8a; font-size: 0.65rem; }
+        .position-slot .empty-text { color: #2a3a5a; font-size: 0.75rem; }
+        .position-slot .player-ppg { color: #ffd700; font-size: 0.7rem; font-weight: 700; }
+
+        /* COACH */
+        .coach-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin: 14px 0 18px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: none;
+        }
+        .coach-section.visible { display: block; animation: fadeIn 0.4s ease; }
+        .coach-display {
+            text-align: center;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            transition: 0.3s;
+        }
+        .coach-display .coach-name { font-size: 1.3rem; font-weight: 700; color: #ffd700; }
+        .coach-display .coach-bonus { font-size: 1rem; color: #6fcf97; margin: 4px 0; }
+        .coach-display .coach-desc { color: #5a6a8a; font-size: 0.85rem; }
+        .coach-spin-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border: none;
+            padding: 10px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.2);
+        }
+        .coach-spin-btn:hover:not(:disabled) { transform: scale(1.04); box-shadow: 0 0 50px rgba(108, 92, 231, 0.3); }
+        .coach-spin-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* STATS */
+        .stats-area {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-top: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: none;
+        }
+        .stats-area.visible { display: block; animation: fadeIn 0.4s ease; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .stat-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-item .stat-label { color: #4a5a7a; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-item .stat-value { color: #e8eeff; font-weight: 700; font-size: 1rem; }
+        .stat-item .stat-value.good { color: #6fcf97; }
+        .stat-item .stat-value.great { color: #ffd700; }
+        .stat-item .stat-value.elite { color: #ff6b6b; }
+
+        .rating-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 4px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+        .rating-bar .fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+        .rating-bar .fill.offense { background: linear-gradient(90deg, #ff6b6b, #ffd700); }
+        .rating-bar .fill.defense { background: linear-gradient(90deg, #6fc3ff, #6c5ce7); }
+
+        /* LEADERBOARD */
+        .leaderboard {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-top: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: none;
+        }
+        .leaderboard.visible { display: block; animation: fadeIn 0.4s ease; }
+        .leaderboard h3 {
+            color: #b0c8ff;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .lb-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-bottom: 4px;
+            border-left: 3px solid rgba(255, 255, 255, 0.06);
+            transition: 0.2s;
+            cursor: pointer;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .lb-entry:hover { background: rgba(255, 255, 255, 0.06); }
+        .lb-entry.top1 { border-left-color: #ffd700; background: rgba(255, 215, 0, 0.06); }
+        .lb-entry.top2 { border-left-color: #c0c0c0; background: rgba(192, 192, 192, 0.04); }
+        .lb-entry.top3 { border-left-color: #cd7f32; background: rgba(205, 127, 50, 0.04); }
+        .lb-entry .lb-rank { font-weight: 700; color: #4a5a7a; min-width: 28px; font-size: 0.85rem; }
+        .lb-entry .lb-player {
+            color: #ffd700;
+            font-weight: 700;
+            font-size: 0.8rem;
+            min-width: 80px;
+        }
+        .lb-entry .lb-names {
+            color: #e8eeff;
+            font-weight: 600;
+            flex: 1;
+            margin: 0 8px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .lb-entry .lb-names .name-tag {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 1px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        .lb-entry .lb-record { color: #ffd700; font-weight: 700; font-size: 0.9rem; }
+        .lb-entry .lb-coach { color: #5a6a8a; font-size: 0.7rem; }
+        .lb-entry .lb-date { color: #3a4a6a; font-size: 0.65rem; }
+        .clear-lb-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: #5a6a8a;
+            padding: 4px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.15s;
+        }
+        .clear-lb-btn:hover { background: rgba(255, 50, 50, 0.15); color: #f28b82; }
+        .lb-empty { color: #3a4a6a; text-align: center; padding: 16px; font-style: italic; font-size: 0.85rem; }
+
+        /* SCHEDULE */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 4px;
+            margin-top: 8px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+        .schedule-grid::-webkit-scrollbar { width: 4px; }
+        .schedule-grid::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); border-radius: 10px; }
+        .schedule-grid::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 10px; }
+        .schedule-game {
+            padding: 6px 2px;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: 0.15s;
+        }
+        .schedule-game.win { background: rgba(31, 107, 74, 0.3); border-color: rgba(31, 107, 74, 0.2); color: #6fcf97; }
+        .schedule-game.loss { background: rgba(107, 42, 42, 0.3); border-color: rgba(107, 42, 42, 0.2); color: #f28b82; }
+        .schedule-game:hover { transform: scale(1.05); z-index: 2; }
+
+        /* ACHIEVEMENTS */
+        .achievements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .achievement {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: #3a4a6a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+        .achievement.unlocked {
+            border-color: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.06);
+        }
+        .achievement.unlocked::before { content: '✅ '; }
+
+        /* SIM AREA */
+        .sim-area {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 16px;
+            margin-top: 4px;
+        }
+        .sim-btn {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            border: none;
+            padding: 10px 36px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            color: #0a0e1a;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 30px rgba(0, 184, 148, 0.15);
+        }
+        .sim-btn:hover:not(:disabled) { transform: scale(1.04); box-shadow: 0 0 50px rgba(0, 184, 148, 0.25); }
+        .sim-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+        .result-display { font-size: 1.6rem; font-weight: 800; color: #ffd966; text-align: center; }
+        .result-display .wins { color: #6fcf97; }
+        .result-display .losses { color: #f28b82; }
+        .result-display .perfect {
+            color: #ffd700;
+            font-size: 2rem;
+            animation: glow 1s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+            to { text-shadow: 0 0 30px rgba(255, 215, 0, 0.4), 0 0 60px rgba(255, 215, 0, 0.1); }
+        }
+        .reset-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: none;
+            color: #5a6a8a;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+        .reset-btn:hover { background: rgba(255, 50, 50, 0.1); color: #f28b82; }
+        .reset-btn svg { width: 16px; height: 16px; }
+
+        .save-status {
+            color: #3a4a6a;
+            font-size: 0.65rem;
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        /* SHARE */
+        .share-area {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        .share-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #7a8aaa;
+            padding: 4px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.15s;
+        }
+        .share-btn:hover { background: rgba(255, 255, 255, 0.08); }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: rgba(15, 22, 41, 0.95);
+            color: #e8eeff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            font-weight: 600;
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 999;
+            pointer-events: none;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* SETTINGS */
+        .settings-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .setting-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .setting-row label { color: #b0c8ff; font-weight: 600; font-size: 0.85rem; min-width: 100px; }
+        .setting-row select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #e8eeff;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .setting-row select:focus { outline: none; border-color: rgba(255, 215, 0, 0.3); }
+        .setting-row button {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #b0c8ff;
+            padding: 6px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: 0.15s;
+        }
+        .setting-row button:hover { background: rgba(255, 255, 255, 0.1); }
+
+        @media (max-width: 768px) {
+            .lineup { grid-template-columns: repeat(3, 1fr); }
+            .container { padding: 14px; }
+            .logo h1 { font-size: 1.5rem; }
+            .header-stats { display: none; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .lb-entry { font-size: 0.7rem; }
+            .lb-entry .lb-names .name-tag { font-size: 0.6rem; padding: 1px 6px; }
+            .player-name-input input { min-width: 100px; font-size: 0.8rem; }
+        }
+        @media (max-width: 400px) {
+            .lineup { grid-template-columns: repeat(2, 1fr); }
+            .position-slot { min-height: 80px; padding: 8px 4px; }
+            .position-slot .player-name { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <div class="toast" id="toast"></div>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <h1>🏀 82-0</h1>
+            <span class="version">v3.0</span>
+        </div>
+        <div class="header-stats">
+            <div class="header-stat"><div class="label">Games</div><div class="value" id="headerGames">0</div></div>
+            <div class="header-stat"><div class="label">Wins</div><div class="value gold" id="headerWins">0</div></div>
+            <div class="header-stat"><div class="label">Losses</div><div class="value" id="headerLosses">0</div></div>
+            <div class="header-stat"><div class="label">Streak</div><div class="value" id="headerStreak">0</div></div>
+        </div>
+    </div>
+
+    <!-- PLAYER NAME INPUT -->
+    <div class="player-name-input">
+        <label>👤 Your Name</label>
+        <input type="text" id="playerNameInput" placeholder="Enter your name..." maxlength="20" />
+        <span class="name-status" id="nameStatus">✅ Will appear on leaderboard</span>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" data-tab="build">🏗️ Build</button>
+        <button class="tab" data-tab="schedule">📅 Schedule</button>
+        <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
+        <button class="tab" data-tab="achievements">🎯 Achievements</button>
+        <button class="tab" data-tab="settings">⚙️ Settings</button>
+    </div>
+
+    <!-- TAB: BUILD -->
+    <div class="tab-content active" id="tab-build">
+        <div class="spin-area">
+            <div class="spin-wheel" id="spinWheel"></div>
+            <div class="spin-result" id="spinResult">🎲 Press <strong>SPIN</strong> to get a player</div>
+            <button class="spin-btn" id="spinBtn">🎲 SPIN</button>
+            <div class="player-pool" id="playerPool"><div class="no-players">Spin to reveal available players</div></div>
+        </div>
+
+        <div class="lineup" id="lineup">
+            <div class="position-slot" data-pos="PG"><div class="pos-label">PG</div><div class="empty-text">Empty</div></div>
+            <div class="position-slot" data-pos="SG"><div class="pos-label">SG</div><div class="empty-text">Empty</div></div>
+            <div class="position-slot" data-pos="SF"><div class="pos-label">SF</div><div class="empty-text">Empty</div></div>
+            <div class="position-slot" data-pos="PF"><div class="pos-label">PF</div><div class="empty-text">Empty</div></div>
+            <div class="position-slot" data-pos="C"><div class="pos-label">C</div><div class="empty-text">Empty</div></div>
+        </div>
+
+        <div class="coach-section" id="coachSection">
+            <div class="coach-display" id="coachDisplay">
+                <div class="coach-name" id="coachName">No Coach</div>
+                <div class="coach-bonus" id="coachBonus">+0 Overall</div>
+                <div class="coach-desc" id="coachDesc">Spin to hire a coach!</div>
+            </div>
+            <button class="coach-spin-btn" id="coachSpinBtn">🎰 SPIN FOR COACH</button>
+        </div>
+
+        <div class="stats-area" id="statsArea">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                <span style="color:#b0c8ff;font-size:0.85rem;font-weight:600;">📊 Team Stats</span>
+                <span style="color:#4a5a7a;font-size:0.7rem;">Overall: <span id="statOverall" style="color:#ffd700;font-weight:700;">0</span></span>
+            </div>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-item"><div class="stat-label">PPG</div><div class="stat-value" id="statPPG">0</div></div>
+                <div class="stat-item"><div class="stat-label">APG</div><div class="stat-value" id="statAPG">0</div></div>
+                <div class="stat-item"><div class="stat-label">RPG</div><div class="stat-value" id="statRPG">0</div></div>
+                <div class="stat-item"><div class="stat-label">SPG</div><div class="stat-value" id="statSPG">0</div></div>
+                <div class="stat-item"><div class="stat-label">BPG</div><div class="stat-value" id="statBPG">0</div></div>
+                <div class="stat-item"><div class="stat-label">FG%</div><div class="stat-value" id="statFG">0%</div></div>
+                <div class="stat-item"><div class="stat-label">3P%</div><div class="stat-value" id="stat3P">0%</div></div>
+            </div>
+            <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div>
+                    <div style="display:flex;justify-content:space-between;color:#b0c8ff;font-size:0.7rem;font-weight:600;">
+                        <span>🔥 Offense</span>
+                        <span id="offenseRating">0</span>
+                    </div>
+                    <div class="rating-bar"><div class="fill offense" id="offenseBar" style="width:0%"></div></div>
+                </div>
+                <div>
+                    <div style="display:flex;justify-content:space-between;color:#b0c8ff;font-size:0.7rem;font-weight:600;">
+                        <span>🛡️ Defense</span>
+                        <span id="defenseRating">0</span>
+                    </div>
+                    <div class="rating-bar"><div class="fill defense" id="defenseBar" style="width:0%"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sim-area">
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="sim-btn" id="simBtn">🏆 Simulate Season</button>
+                <button class="reset-btn" id="resetBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 4v6h6" stroke="currentColor"/>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" stroke="currentColor"/>
+                    </svg>
+                    Reset
+                </button>
+            </div>
+            <div class="result-display" id="resultDisplay"><span class="wins" id="resultWins">0</span>-<span class="losses" id="resultLosses">0</span></div>
+        </div>
+        <div class="save-status" id="saveStatus">💾 Auto-saved</div>
+        <div class="share-area">
+            <button class="share-btn" id="shareBtn">📤 Share Team</button>
+            <button class="share-btn" id="exportBtn">📥 Export</button>
+        </div>
+    </div>
+
+    <!-- TAB: SCHEDULE -->
+    <div class="tab-content" id="tab-schedule">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+            <span style="color:#b0c8ff;font-size:0.85rem;font-weight:600;">📅 Season Schedule</span>
+            <span style="color:#4a5a7a;font-size:0.7rem;" id="scheduleSummary">No season simulated</span>
+        </div>
+        <div id="scheduleContainer"><div class="lb-empty">Simulate a season to see the full schedule!</div></div>
+        <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;color:#5a6a8a;font-size:0.75rem;">
+            <span>🟢 Win</span><span>🔴 Loss</span><span>⚪ Unplayed</span>
+        </div>
+    </div>
+
+    <!-- TAB: LEADERBOARD -->
+    <div class="tab-content" id="tab-leaderboard">
+        <div class="leaderboard visible" style="display:block;margin-top:0;">
+            <h3>🏆 All-Time Leaderboard <button class="clear-lb-btn" id="clearLB">Clear All</button></h3>
+            <div id="lbEntries"><div class="lb-empty">No entries yet. Simulate a season to appear!</div></div>
+        </div>
+    </div>
+
+    <!-- TAB: ACHIEVEMENTS -->
+    <div class="tab-content" id="tab-achievements">
+        <span style="color:#b0c8ff;font-size:0.85rem;font-weight:600;display:block;margin-bottom:10px;">🎯 Achievements</span>
+        <div class="achievements" id="achievementsContainer">
+            <div class="achievement" data-ach="first_win">First Win</div>
+            <div class="achievement" data-ach="ten_wins">10 Wins</div>
+            <div class="achievement" data-ach="twenty_wins">20 Wins</div>
+            <div class="achievement" data-ach="thirty_wins">30 Wins</div>
+            <div class="achievement" data-ach="forty_wins">40 Wins</div>
+            <div class="achievement" data-ach="fifty_wins">50 Wins</div>
+            <div class="achievement" data-ach="sixty_wins">60 Wins</div>
+            <div class="achievement" data-ach="seventy_wins">70 Wins</div>
+            <div class="achievement" data-ach="eighty_wins">80 Wins</div>
+            <div class="achievement" data-ach="perfect">🏆 82-0 PERFECT!</div>
+            <div class="achievement" data-ach="first_coach">First Coach</div>
+            <div class="achievement" data-ach="legendary_coach">👑 Legendary Coach</div>
+            <div class="achievement" data-ach="full_lineup">Full Lineup</div>
+            <div class="achievement" data-ach="first_sim">First Simulation</div>
+            <div class="achievement" data-ach="three_seasons">3 Seasons</div>
+            <div class="achievement" data-ach="ten_seasons">10 Seasons</div>
+        </div>
+    </div>
+
+    <!-- TAB: SETTINGS -->
+    <div class="tab-content" id="tab-settings">
+        <span style="color:#b0c8ff;font-size:0.85rem;font-weight:600;display:block;margin-bottom:12px;">⚙️ Settings</span>
+        <div class="settings-grid">
+            <div class="setting-row">
+                <label>Difficulty</label>
+                <select id="difficultySelect">
+                    <option value="easy">Easy</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="hard">Hard</option>
+                    <option value="legendary">Legendary</option>
+                </select>
+            </div>
+            <div class="setting-row">
+                <label>Season Length</label>
+                <select id="seasonLength">
+                    <option value="14">14 Games</option>
+                    <option value="41">41 Games</option>
+                    <option value="82" selected>82 Games</option>
+                </select>
+            </div>
+            <div class="setting-row">
+                <label>Auto-Save</label>
+                <button id="toggleAutoSave">✅ ON</button>
+            </div>
+            <div class="setting-row">
+                <label>Data Management</label>
+                <button id="exportDataBtn">📤 Export All</button>
+                <button id="importDataBtn">📥 Import</button>
+                <input type="file" id="importFile" style="display:none;" accept=".json">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // 1. DATABASE with player emojis (avatars)
+    // ============================================================
+    const PLAYER_DB = {
+        "Lakers|1980s": [
+            { name: "Magic Johnson", pos: "PG", ppg: 19.5, apg: 11.2, rpg: 7.2, spg: 1.9, bpg: 0.4, fg: 52, tp: 30, emoji: "🌟" },
+            { name: "Kareem Abdul-Jabbar", pos: "C", ppg: 24.8, apg: 3.2, rpg: 10.8, spg: 0.8, bpg: 2.4, fg: 57, tp: 0, emoji: "🏀" },
+            { name: "James Worthy", pos: "SF", ppg: 17.6, apg: 2.8, rpg: 5.1, spg: 1.2, bpg: 0.6, fg: 52, tp: 25, emoji: "🔥" },
+            { name: "Byron Scott", pos: "SG", ppg: 15.2, apg: 2.8, rpg: 3.2, spg: 1.1, bpg: 0.3, fg: 48, tp: 38, emoji: "🎯" },
+            { name: "Michael Cooper", pos: "SG", ppg: 10.5, apg: 4.5, rpg: 3.8, spg: 1.4, bpg: 0.8, fg: 46, tp: 35, emoji: "🛡️" },
+        ],
+        "Lakers|2000s": [
+            { name: "Kobe Bryant", pos: "SG", ppg: 27.4, apg: 5.2, rpg: 5.8, spg: 1.6, bpg: 0.5, fg: 45, tp: 33, emoji: "🐍" },
+            { name: "Shaquille O'Neal", pos: "C", ppg: 27.0, apg: 2.8, rpg: 11.8, spg: 0.6, bpg: 2.5, fg: 58, tp: 0, emoji: "💪" },
+            { name: "Pau Gasol", pos: "PF", ppg: 18.8, apg: 3.5, rpg: 9.5, spg: 0.5, bpg: 1.4, fg: 52, tp: 25, emoji: "🇪🇸" },
+            { name: "Derek Fisher", pos: "PG", ppg: 10.2, apg: 4.8, rpg: 2.8, spg: 1.2, bpg: 0.1, fg: 43, tp: 38, emoji: "🎯" },
+            { name: "Lamar Odom", pos: "SF", ppg: 14.2, apg: 4.2, rpg: 8.6, spg: 0.9, bpg: 0.7, fg: 47, tp: 32, emoji: "🔄" },
+        ],
+        "Lakers|2010s": [
+            { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35, emoji: "👑" },
+            { name: "Anthony Davis", pos: "PF", ppg: 24.0, apg: 3.0, rpg: 10.4, spg: 1.4, bpg: 2.4, fg: 51, tp: 32, emoji: "📏" },
+            { name: "Kyle Kuzma", pos: "SF", ppg: 16.2, apg: 2.2, rpg: 5.6, spg: 0.8, bpg: 0.5, fg: 45, tp: 34, emoji: "🎨" },
+            { name: "D'Angelo Russell", pos: "PG", ppg: 18.5, apg: 6.2, rpg: 4.0, spg: 1.0, bpg: 0.3, fg: 44, tp: 36, emoji: "🎭" },
+        ],
+        "Celtics|1980s": [
+            { name: "Larry Bird", pos: "SF", ppg: 24.3, apg: 6.3, rpg: 10.0, spg: 1.7, bpg: 0.8, fg: 50, tp: 38, emoji: "🐦" },
+            { name: "Kevin McHale", pos: "PF", ppg: 18.4, apg: 2.2, rpg: 7.5, spg: 0.5, bpg: 1.8, fg: 55, tp: 20, emoji: "🦴" },
+            { name: "Robert Parish", pos: "C", ppg: 16.5, apg: 1.8, rpg: 10.0, spg: 0.8, bpg: 1.5, fg: 54, tp: 0, emoji: "🏛️" },
+            { name: "Dennis Johnson", pos: "PG", ppg: 14.0, apg: 6.8, rpg: 3.8, spg: 1.3, bpg: 0.5, fg: 46, tp: 32, emoji: "⚡" },
+            { name: "Danny Ainge", pos: "SG", ppg: 11.5, apg: 4.8, rpg: 3.2, spg: 1.2, bpg: 0.2, fg: 47, tp: 38, emoji: "🎯" },
+        ],
+        "Celtics|2000s": [
+            { name: "Paul Pierce", pos: "SF", ppg: 21.8, apg: 4.5, rpg: 6.2, spg: 1.2, bpg: 0.5, fg: 45, tp: 37, emoji: "🔪" },
+            { name: "Kevin Garnett", pos: "PF", ppg: 18.8, apg: 3.8, rpg: 9.2, spg: 1.4, bpg: 1.2, fg: 50, tp: 25, emoji: "🐺" },
+            { name: "Ray Allen", pos: "SG", ppg: 18.9, apg: 2.6, rpg: 4.2, spg: 1.0, bpg: 0.2, fg: 46, tp: 40, emoji: "🎯" },
+            { name: "Rajon Rondo", pos: "PG", ppg: 11.9, apg: 9.8, rpg: 5.2, spg: 2.0, bpg: 0.2, fg: 48, tp: 25, emoji: "🧠" },
+            { name: "Kendrick Perkins", pos: "C", ppg: 8.0, apg: 1.2, rpg: 7.2, spg: 0.4, bpg: 1.5, fg: 52, tp: 0, emoji: "💪" },
+        ],
+        "Celtics|2010s": [
+            { name: "Jayson Tatum", pos: "SF", ppg: 23.4, apg: 4.2, rpg: 7.0, spg: 1.0, bpg: 0.6, fg: 46, tp: 38, emoji: "⭐" },
+            { name: "Jaylen Brown", pos: "SG", ppg: 20.4, apg: 3.4, rpg: 5.8, spg: 1.0, bpg: 0.4, fg: 47, tp: 36, emoji: "⚡" },
+            { name: "Marcus Smart", pos: "PG", ppg: 12.1, apg: 5.0, rpg: 4.0, spg: 1.6, bpg: 0.5, fg: 38, tp: 33, emoji: "🛡️" },
+            { name: "Al Horford", pos: "C", ppg: 14.2, apg: 4.0, rpg: 8.0, spg: 0.8, bpg: 1.2, fg: 50, tp: 36, emoji: "🇩🇴" },
+        ],
+        "Bulls|1990s": [
+            { name: "Michael Jordan", pos: "SG", ppg: 30.1, apg: 5.3, rpg: 6.2, spg: 2.3, bpg: 0.8, fg: 50, tp: 33, emoji: "🐐" },
+            { name: "Scottie Pippen", pos: "SF", ppg: 18.1, apg: 6.8, rpg: 7.0, spg: 2.0, bpg: 0.9, fg: 48, tp: 33, emoji: "🦸" },
+            { name: "Dennis Rodman", pos: "PF", ppg: 5.2, apg: 2.0, rpg: 15.0, spg: 0.6, bpg: 0.4, fg: 50, tp: 20, emoji: "🎨" },
+            { name: "Horace Grant", pos: "PF", ppg: 12.6, apg: 2.2, rpg: 8.6, spg: 1.0, bpg: 1.1, fg: 52, tp: 0, emoji: "👓" },
+            { name: "Steve Kerr", pos: "PG", ppg: 7.5, apg: 2.5, rpg: 1.5, spg: 0.6, bpg: 0.1, fg: 50, tp: 45, emoji: "🎯" },
+        ],
+        "Bulls|2010s": [
+            { name: "Derrick Rose", pos: "PG", ppg: 22.5, apg: 7.2, rpg: 4.0, spg: 1.0, bpg: 0.4, fg: 45, tp: 32, emoji: "🌹" },
+            { name: "Jimmy Butler", pos: "SF", ppg: 20.0, apg: 4.2, rpg: 5.6, spg: 1.8, bpg: 0.5, fg: 46, tp: 34, emoji: "🔥" },
+            { name: "Joakim Noah", pos: "C", ppg: 10.2, apg: 4.2, rpg: 10.5, spg: 1.0, bpg: 1.4, fg: 50, tp: 0, emoji: "🦁" },
+            { name: "Lauri Markkanen", pos: "PF", ppg: 16.2, apg: 1.8, rpg: 7.0, spg: 0.6, bpg: 0.5, fg: 44, tp: 36, emoji: "🇫🇮" },
+        ],
+        "Warriors|2010s": [
+            { name: "Stephen Curry", pos: "PG", ppg: 26.4, apg: 6.8, rpg: 5.0, spg: 1.6, bpg: 0.2, fg: 48, tp: 43, emoji: "🏹" },
+            { name: "Klay Thompson", pos: "SG", ppg: 21.5, apg: 2.4, rpg: 3.8, spg: 0.9, bpg: 0.5, fg: 46, tp: 42, emoji: "🎯" },
+            { name: "Kevin Durant", pos: "SF", ppg: 27.4, apg: 5.2, rpg: 7.0, spg: 1.2, bpg: 1.2, fg: 50, tp: 38, emoji: "💀" },
+            { name: "Draymond Green", pos: "PF", ppg: 10.2, apg: 7.0, rpg: 7.8, spg: 1.4, bpg: 1.2, fg: 45, tp: 31, emoji: "🗣️" },
+            { name: "Andre Iguodala", pos: "SF", ppg: 9.3, apg: 4.2, rpg: 5.0, spg: 1.2, bpg: 0.4, fg: 46, tp: 35, emoji: "🏆" },
+        ],
+        "Warriors|2020s": [
+            { name: "Stephen Curry", pos: "PG", ppg: 26.4, apg: 6.8, rpg: 5.0, spg: 1.6, bpg: 0.2, fg: 48, tp: 43, emoji: "🏹" },
+            { name: "Klay Thompson", pos: "SG", ppg: 21.5, apg: 2.4, rpg: 3.8, spg: 0.9, bpg: 0.5, fg: 46, tp: 42, emoji: "🎯" },
+            { name: "Jordan Poole", pos: "SG", ppg: 18.2, apg: 3.8, rpg: 3.0, spg: 0.8, bpg: 0.3, fg: 44, tp: 36, emoji: "💫" },
+            { name: "Andrew Wiggins", pos: "SF", ppg: 18.6, apg: 2.8, rpg: 4.8, spg: 1.0, bpg: 0.6, fg: 47, tp: 38, emoji: "🇨🇦" },
+        ],
+        "Spurs|2000s": [
+            { name: "Tim Duncan", pos: "PF", ppg: 21.5, apg: 3.2, rpg: 11.0, spg: 0.8, bpg: 2.2, fg: 51, tp: 20, emoji: "🏀" },
+            { name: "Tony Parker", pos: "PG", ppg: 18.6, apg: 6.2, rpg: 3.2, spg: 1.0, bpg: 0.1, fg: 49, tp: 34, emoji: "🇫🇷" },
+            { name: "Manu Ginobili", pos: "SG", ppg: 15.8, apg: 4.2, rpg: 4.0, spg: 1.4, bpg: 0.4, fg: 45, tp: 37, emoji: "🇦🇷" },
+            { name: "Kawhi Leonard", pos: "SF", ppg: 19.2, apg: 2.8, rpg: 6.4, spg: 1.8, bpg: 0.8, fg: 49, tp: 38, emoji: "🤖" },
+            { name: "David Robinson", pos: "C", ppg: 21.6, apg: 2.8, rpg: 10.6, spg: 1.4, bpg: 3.0, fg: 52, tp: 0, emoji: "⚓" },
+        ],
+        "Spurs|2010s": [
+            { name: "Kawhi Leonard", pos: "SF", ppg: 19.2, apg: 2.8, rpg: 6.4, spg: 1.8, bpg: 0.8, fg: 49, tp: 38, emoji: "🤖" },
+            { name: "LaMarcus Aldridge", pos: "PF", ppg: 21.4, apg: 2.0, rpg: 8.4, spg: 0.6, bpg: 1.2, fg: 48, tp: 32, emoji: "🎯" },
+            { name: "DeMar DeRozan", pos: "SG", ppg: 22.2, apg: 4.8, rpg: 5.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 30, emoji: "🇨🇦" },
+            { name: "Tony Parker", pos: "PG", ppg: 16.2, apg: 5.8, rpg: 2.8, spg: 0.8, bpg: 0.1, fg: 48, tp: 32, emoji: "🇫🇷" },
+        ],
+        "Heat|2010s": [
+            { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35, emoji: "👑" },
+            { name: "Dwyane Wade", pos: "SG", ppg: 22.4, apg: 5.4, rpg: 5.0, spg: 1.6, bpg: 0.8, fg: 49, tp: 29, emoji: "🔥" },
+            { name: "Chris Bosh", pos: "PF", ppg: 17.8, apg: 2.0, rpg: 7.6, spg: 0.8, bpg: 0.8, fg: 49, tp: 35, emoji: "🦖" },
+            { name: "Jimmy Butler", pos: "SF", ppg: 20.0, apg: 4.2, rpg: 5.6, spg: 1.8, bpg: 0.5, fg: 46, tp: 34, emoji: "🔥" },
+            { name: "Bam Adebayo", pos: "C", ppg: 16.2, apg: 4.8, rpg: 9.6, spg: 1.2, bpg: 0.9, fg: 54, tp: 30, emoji: "💪" },
+        ],
+        "Nuggets|2020s": [
+            { name: "Nikola Jokic", pos: "C", ppg: 26.4, apg: 9.0, rpg: 12.4, spg: 1.2, bpg: 0.9, fg: 58, tp: 35, emoji: "🐐" },
+            { name: "Jamal Murray", pos: "PG", ppg: 21.2, apg: 6.2, rpg: 4.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 38, emoji: "🇨🇦" },
+            { name: "Michael Porter Jr.", pos: "SF", ppg: 16.4, apg: 1.8, rpg: 6.4, spg: 0.8, bpg: 0.6, fg: 47, tp: 40, emoji: "🎯" },
+            { name: "Aaron Gordon", pos: "PF", ppg: 14.6, apg: 3.0, rpg: 6.0, spg: 0.8, bpg: 0.6, fg: 52, tp: 32, emoji: "✈️" },
+        ],
+        "76ers|1980s": [
+            { name: "Julius Erving", pos: "SF", ppg: 22.4, apg: 4.2, rpg: 6.8, spg: 1.8, bpg: 1.4, fg: 50, tp: 28, emoji: "✈️" },
+            { name: "Moses Malone", pos: "C", ppg: 24.8, apg: 1.4, rpg: 15.0, spg: 0.8, bpg: 1.6, fg: 50, tp: 0, emoji: "💪" },
+            { name: "Charles Barkley", pos: "PF", ppg: 23.0, apg: 4.0, rpg: 11.5, spg: 1.6, bpg: 0.8, fg: 54, tp: 28, emoji: "🐷" },
+            { name: "Maurice Cheeks", pos: "PG", ppg: 12.6, apg: 8.0, rpg: 3.0, spg: 2.2, bpg: 0.3, fg: 50, tp: 30, emoji: "⚡" },
+        ],
+        "76ers|2000s": [
+            { name: "Allen Iverson", pos: "SG", ppg: 28.4, apg: 6.2, rpg: 4.0, spg: 2.2, bpg: 0.2, fg: 42, tp: 31, emoji: "💯" },
+            { name: "Andre Iguodala", pos: "SF", ppg: 14.8, apg: 5.0, rpg: 5.8, spg: 1.6, bpg: 0.4, fg: 46, tp: 33, emoji: "🏆" },
+            { name: "Chris Webber", pos: "PF", ppg: 20.8, apg: 4.8, rpg: 9.8, spg: 1.2, bpg: 1.4, fg: 48, tp: 30, emoji: "🎨" },
+        ],
+        "76ers|2010s": [
+            { name: "Joel Embiid", pos: "C", ppg: 27.2, apg: 4.2, rpg: 10.8, spg: 1.0, bpg: 1.8, fg: 48, tp: 34, emoji: "🌍" },
+            { name: "Ben Simmons", pos: "PG", ppg: 15.8, apg: 7.8, rpg: 8.0, spg: 1.6, bpg: 0.8, fg: 56, tp: 15, emoji: "🦘" },
+            { name: "Jimmy Butler", pos: "SF", ppg: 20.0, apg: 4.2, rpg: 5.6, spg: 1.8, bpg: 0.5, fg: 46, tp: 34, emoji: "🔥" },
+            { name: "Tobias Harris", pos: "PF", ppg: 17.2, apg: 2.8, rpg: 6.8, spg: 0.8, bpg: 0.6, fg: 47, tp: 36, emoji: "🎯" },
+        ],
+        "Bucks|2020s": [
+            { name: "Giannis Antetokounmpo", pos: "PF", ppg: 29.4, apg: 5.8, rpg: 11.0, spg: 1.2, bpg: 1.4, fg: 55, tp: 30, emoji: "🦌" },
+            { name: "Damian Lillard", pos: "PG", ppg: 26.2, apg: 6.8, rpg: 4.4, spg: 1.0, bpg: 0.3, fg: 44, tp: 38, emoji: "⌚" },
+            { name: "Khris Middleton", pos: "SF", ppg: 20.2, apg: 4.8, rpg: 5.4, spg: 1.0, bpg: 0.2, fg: 46, tp: 39, emoji: "🎯" },
+            { name: "Jrue Holiday", pos: "SG", ppg: 18.4, apg: 6.8, rpg: 4.6, spg: 1.6, bpg: 0.5, fg: 47, tp: 38, emoji: "🛡️" },
+            { name: "Brook Lopez", pos: "C", ppg: 15.8, apg: 1.6, rpg: 6.2, spg: 0.6, bpg: 2.0, fg: 48, tp: 36, emoji: "📏" },
+        ],
+        "Suns|2020s": [
+            { name: "Devin Booker", pos: "SG", ppg: 26.8, apg: 5.6, rpg: 5.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 36, emoji: "📖" },
+            { name: "Kevin Durant", pos: "SF", ppg: 27.4, apg: 5.2, rpg: 7.0, spg: 1.2, bpg: 1.2, fg: 50, tp: 38, emoji: "💀" },
+            { name: "Chris Paul", pos: "PG", ppg: 16.2, apg: 9.0, rpg: 4.6, spg: 1.6, bpg: 0.2, fg: 48, tp: 37, emoji: "🧠" },
+            { name: "Deandre Ayton", pos: "C", ppg: 16.6, apg: 2.0, rpg: 10.2, spg: 0.6, bpg: 0.8, fg: 58, tp: 20, emoji: "🇧🇸" },
+        ],
+        "Mavericks|2010s": [
+            { name: "Dirk Nowitzki", pos: "PF", ppg: 21.2, apg: 2.6, rpg: 7.8, spg: 0.8, bpg: 0.8, fg: 47, tp: 38, emoji: "🇩🇪" },
+            { name: "Luka Doncic", pos: "PG", ppg: 24.4, apg: 8.6, rpg: 8.0, spg: 1.0, bpg: 0.6, fg: 46, tp: 34, emoji: "🇸🇮" },
+            { name: "Jason Terry", pos: "SG", ppg: 16.6, apg: 3.8, rpg: 2.4, spg: 1.2, bpg: 0.2, fg: 46, tp: 38, emoji: "🎯" },
+        ],
+        "Mavericks|2020s": [
+            { name: "Luka Doncic", pos: "PG", ppg: 32.4, apg: 9.0, rpg: 8.6, spg: 1.4, bpg: 0.6, fg: 49, tp: 38, emoji: "🇸🇮" },
+            { name: "Kyrie Irving", pos: "SG", ppg: 25.6, apg: 5.2, rpg: 4.8, spg: 1.4, bpg: 0.5, fg: 49, tp: 41, emoji: "🌍" },
+            { name: "Derrick Lively", pos: "C", ppg: 8.8, apg: 1.2, rpg: 6.8, spg: 0.4, bpg: 1.4, fg: 72, tp: 0, emoji: "⭐" },
+        ],
+        "Thunder|2010s": [
+            { name: "Kevin Durant", pos: "SF", ppg: 27.4, apg: 5.2, rpg: 7.0, spg: 1.2, bpg: 1.2, fg: 50, tp: 38, emoji: "💀" },
+            { name: "Russell Westbrook", pos: "PG", ppg: 23.4, apg: 8.6, rpg: 7.4, spg: 1.8, bpg: 0.3, fg: 43, tp: 31, emoji: "⚡" },
+            { name: "James Harden", pos: "SG", ppg: 21.8, apg: 4.8, rpg: 5.0, spg: 1.6, bpg: 0.4, fg: 44, tp: 37, emoji: "🧔" },
+            { name: "Serge Ibaka", pos: "PF", ppg: 14.2, apg: 0.8, rpg: 8.4, spg: 0.4, bpg: 2.6, fg: 54, tp: 35, emoji: "🇨🇩" },
+        ],
+        "Thunder|2020s": [
+            { name: "Shai Gilgeous-Alexander", pos: "PG", ppg: 30.8, apg: 6.2, rpg: 5.4, spg: 2.0, bpg: 0.8, fg: 53, tp: 34, emoji: "🇨🇦" },
+            { name: "Chet Holmgren", pos: "C", ppg: 16.6, apg: 2.4, rpg: 8.0, spg: 0.8, bpg: 2.6, fg: 53, tp: 37, emoji: "📏" },
+            { name: "Jalen Williams", pos: "SF", ppg: 19.2, apg: 4.4, rpg: 4.0, spg: 1.6, bpg: 0.6, fg: 54, tp: 42, emoji: "⭐" },
+        ],
+        "Knicks|1990s": [
+            { name: "Patrick Ewing", pos: "C", ppg: 22.4, apg: 2.2, rpg: 10.4, spg: 0.8, bpg: 2.2, fg: 50, tp: 20, emoji: "🗽" },
+            { name: "John Starks", pos: "SG", ppg: 16.2, apg: 4.2, rpg: 2.8, spg: 1.2, bpg: 0.2, fg: 42, tp: 36, emoji: "🔥" },
+            { name: "Charles Oakley", pos: "PF", ppg: 10.8, apg: 2.6, rpg: 10.0, spg: 0.8, bpg: 0.4, fg: 47, tp: 25, emoji: "💪" },
+        ],
+        "Rockets|1990s": [
+            { name: "Hakeem Olajuwon", pos: "C", ppg: 23.2, apg: 2.8, rpg: 11.0, spg: 1.8, bpg: 3.4, fg: 51, tp: 20, emoji: "🇳🇬" },
+            { name: "Clyde Drexler", pos: "SG", ppg: 20.4, apg: 5.4, rpg: 6.2, spg: 2.0, bpg: 0.6, fg: 45, tp: 34, emoji: "✈️" },
+            { name: "Charles Barkley", pos: "PF", ppg: 23.0, apg: 4.0, rpg: 11.5, spg: 1.6, bpg: 0.8, fg: 54, tp: 28, emoji: "🐷" },
+        ],
+        "Rockets|2010s": [
+            { name: "James Harden", pos: "SG", ppg: 30.4, apg: 8.8, rpg: 6.0, spg: 1.8, bpg: 0.6, fg: 44, tp: 36, emoji: "🧔" },
+            { name: "Chris Paul", pos: "PG", ppg: 16.2, apg: 9.0, rpg: 4.6, spg: 1.6, bpg: 0.2, fg: 48, tp: 37, emoji: "🧠" },
+            { name: "Clint Capela", pos: "C", ppg: 14.2, apg: 1.2, rpg: 11.0, spg: 0.8, bpg: 1.4, fg: 65, tp: 0, emoji: "🇨🇭" },
+        ],
+        "Pistons|2000s": [
+            { name: "Chauncey Billups", pos: "PG", ppg: 16.8, apg: 5.8, rpg: 3.4, spg: 1.0, bpg: 0.2, fg: 44, tp: 38, emoji: "🎯" },
+            { name: "Rip Hamilton", pos: "SG", ppg: 18.4, apg: 3.4, rpg: 3.4, spg: 0.8, bpg: 0.2, fg: 45, tp: 35, emoji: "🎭" },
+            { name: "Tayshaun Prince", pos: "SF", ppg: 12.8, apg: 2.6, rpg: 4.8, spg: 0.6, bpg: 0.6, fg: 44, tp: 35, emoji: "📏" },
+            { name: "Ben Wallace", pos: "C", ppg: 6.0, apg: 1.6, rpg: 12.0, spg: 1.4, bpg: 2.2, fg: 47, tp: 0, emoji: "💪" },
+            { name: "Rasheed Wallace", pos: "PF", ppg: 14.4, apg: 1.8, rpg: 6.8, spg: 1.0, bpg: 1.4, fg: 44, tp: 34, emoji: "🗣️" },
+        ],
+        "Cavaliers|2010s": [
+            { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35, emoji: "👑" },
+            { name: "Kyrie Irving", pos: "PG", ppg: 22.8, apg: 5.8, rpg: 3.4, spg: 1.4, bpg: 0.4, fg: 47, tp: 39, emoji: "🌍" },
+            { name: "Kevin Love", pos: "PF", ppg: 17.6, apg: 2.4, rpg: 9.8, spg: 0.6, bpg: 0.4, fg: 43, tp: 37, emoji: "❤️" },
+            { name: "Dwyane Wade", pos: "SG", ppg: 18.2, apg: 4.2, rpg: 4.2, spg: 1.4, bpg: 0.6, fg: 45, tp: 29, emoji: "🔥" },
+        ],
+        "Clippers|2020s": [
+            { name: "Kawhi Leonard", pos: "SF", ppg: 23.8, apg: 4.2, rpg: 6.2, spg: 1.8, bpg: 0.6, fg: 49, tp: 38, emoji: "🤖" },
+            { name: "Paul George", pos: "SG", ppg: 22.6, apg: 4.4, rpg: 5.6, spg: 1.6, bpg: 0.4, fg: 45, tp: 38, emoji: "🎯" },
+            { name: "James Harden", pos: "PG", ppg: 21.2, apg: 7.8, rpg: 5.2, spg: 1.4, bpg: 0.4, fg: 44, tp: 35, emoji: "🧔" },
+            { name: "Russell Westbrook", pos: "PG", ppg: 18.2, apg: 7.2, rpg: 6.0, spg: 1.4, bpg: 0.3, fg: 43, tp: 31, emoji: "⚡" },
+        ],
+        "Timberwolves|2020s": [
+            { name: "Anthony Edwards", pos: "SG", ppg: 25.8, apg: 4.8, rpg: 5.2, spg: 1.4, bpg: 0.6, fg: 46, tp: 36, emoji: "🐺" },
+            { name: "Karl-Anthony Towns", pos: "C", ppg: 24.6, apg: 4.2, rpg: 9.8, spg: 0.8, bpg: 0.8, fg: 51, tp: 41, emoji: "🇩🇴" },
+            { name: "Rudy Gobert", pos: "C", ppg: 12.8, apg: 1.2, rpg: 13.0, spg: 0.6, bpg: 2.2, fg: 65, tp: 0, emoji: "🇫🇷" },
+        ],
+        "Pelicans|2020s": [
+            { name: "Zion Williamson", pos: "PF", ppg: 24.8, apg: 4.8, rpg: 6.8, spg: 1.0, bpg: 0.8, fg: 58, tp: 30, emoji: "💪" },
+            { name: "Brandon Ingram", pos: "SF", ppg: 22.8, apg: 5.2, rpg: 5.6, spg: 0.8, bpg: 0.6, fg: 47, tp: 36, emoji: "📏" },
+            { name: "CJ McCollum", pos: "SG", ppg: 20.8, apg: 5.6, rpg: 4.2, spg: 1.0, bpg: 0.4, fg: 46, tp: 39, emoji: "🎯" },
+        ],
+    };
+
+    const TEAM_ERA_KEYS = Object.keys(PLAYER_DB);
+
+    // ============================================================
+    // 2. COACHES
+    // ============================================================
+    const COACHES = [
+        { id: 'phil', name: 'Phil Jackson', bonus: 5, desc: 'Triangle offense master', tier: 'Legendary', emoji: '🧘' },
+        { id: 'pop', name: 'Gregg Popovich', bonus: 4, desc: 'System basketball genius', tier: 'Legendary', emoji: '🍷' },
+        { id: 'riley', name: 'Pat Riley', bonus: 4, desc: 'Showtime & grit architect', tier: 'Legendary', emoji: '💼' },
+        { id: 'kerr', name: 'Steve Kerr', bonus: 3, desc: 'Motion offense wizard', tier: 'Elite', emoji: '🎯' },
+        { id: 'spoesltra', name: 'Erik Spoelstra', bonus: 3, desc: 'Heat culture builder', tier: 'Elite', emoji: '🔥' },
+        { id: 'red', name: 'Red Auerbach', bonus: 4, desc: 'The original mastermind', tier: 'Legendary', emoji: '🚬' },
+        { id: 'chuck', name: 'Chuck Daly', bonus: 3, desc: 'Bad Boys orchestrator', tier: 'Elite', emoji: '🕶️' },
+        { id: 'larryb', name: 'Larry Brown', bonus: 3, desc: 'Fundamentals expert', tier: 'Elite', emoji: '📋' },
+        { id: 'doc', name: 'Doc Rivers', bonus: 2, desc: 'Player-friendly coach', tier: 'Good', emoji: '🗣️' },
+        { id: 'mike', name: "Mike D'Antoni", bonus: 2, desc: '7-seconds offense', tier: 'Good', emoji: '🏃' },
+        { id: 'tom', name: 'Tom Thibodeau', bonus: 2, desc: 'Defensive mastermind', tier: 'Good', emoji: '🛡️' },
+        { id: 'none', name: 'No Coach', bonus: 0, desc: 'Let the talent speak', tier: 'None', emoji: '🚫' },
+    ];
+
+    // ============================================================
+    // 3. STATE
+    // ============================================================
+    let state = {
+        round: 1,
+        lineup: { PG: null, SG: null, SF: null, PF: null, C: null },
+        currentSpin: { teamEraKey: null, players: [] },
+        seasonResult: null,
+        schedule: [],
+        coach: null,
+        isLineupComplete: false,
+        hasSpunCoach: false,
+        leaderboard: [],
+        achievements: [],
+        settings: { difficulty: 'normal', seasonLength: 82, autoSave: true },
+        bestStreak: 0,
+        totalSeasons: 0,
+        totalWins: 0,
+        totalLosses: 0,
+        playerName: '',
+    };
+
+    const POSITIONS = ['PG', 'SG', 'SF', 'PF', 'C'];
+
+    // ============================================================
+    // 4. DOM REFS
+    // ============================================================
+    const $ = id => document.getElementById(id);
+    const spinBtn = $('spinBtn');
+    const spinResult = $('spinResult');
+    const spinWheel = $('spinWheel');
+    const playerPool = $('playerPool');
+    const simBtn = $('simBtn');
+    const resetBtn = $('resetBtn');
+    const resultDisplay = $('resultDisplay');
+    const resultWins = $('resultWins');
+    const resultLosses = $('resultLosses');
+    const statsArea = $('statsArea');
+    const coachSection = $('coachSection');
+    const coachDisplay = $('coachDisplay');
+    const coachName = $('coachName');
+    const coachBonus = $('coachBonus');
+    const coachDesc = $('coachDesc');
+    const coachSpinBtn = $('coachSpinBtn');
+    const lbEntries = $('lbEntries');
+    const clearLB = $('clearLB');
+    const saveStatus = $('saveStatus');
+    const toast = $('toast');
+    const scheduleContainer = $('scheduleContainer');
+    const achievementsContainer = $('achievementsContainer');
+    const difficultySelect = $('difficultySelect');
+    const seasonLength = $('seasonLength');
+    const toggleAutoSave = $('toggleAutoSave');
+    const exportDataBtn = $('exportDataBtn');
+    const importDataBtn = $('importDataBtn');
+    const importFile = $('importFile');
+    const shareBtn = $('shareBtn');
+    const playerNameInput = $('playerNameInput');
+    const nameStatus = $('nameStatus');
+
+    const headerGames = $('headerGames');
+    const headerWins = $('headerWins');
+    const headerLosses = $('headerLosses');
+    const headerStreak = $('headerStreak');
+
+    // ============================================================
+    // 5. TOAST
+    // ============================================================
+    let toastTimeout;
+
+    function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ============================================================
+    // 6. TAB SYSTEM
+    // ============================================================
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // ============================================================
+    // 7. RENDER FUNCTIONS
+    // ============================================================
+    function renderLineup() {
+        POSITIONS.forEach(pos => {
+            const slot = document.querySelector(`.position-slot[data-pos="${pos}"]`);
+            const player = state.lineup[pos];
+            if (player) {
+                slot.classList.add('filled');
+                slot.innerHTML = `
+                    <div class="pos-label">${pos}</div>
+                    <div class="player-avatar">${player.emoji || '🏀'}</div>
+                    <div class="player-name">${player.name}</div>
+                    <div class="player-team">${state.currentSpin.teamEraKey || ''}</div>
+                    <div class="player-ppg">${player.ppg} PPG</div>
+                `;
+            } else {
+                slot.classList.remove('filled');
+                slot.innerHTML = `<div class="pos-label">${pos}</div><div class="empty-text">Empty</div>`;
+            }
+        });
+
+        const isFull = isLineupFull();
+        spinBtn.disabled = state.round > 5 || isFull;
+        simBtn.disabled = !isFull || !state.hasSpunCoach || state.seasonResult !== null;
+
+        if (isFull && !state.isLineupComplete) {
+            state.isLineupComplete = true;
+            coachSection.classList.add('visible');
+            statsArea.classList.add('visible');
+            spinResult.innerHTML = '🎉 <strong>Lineup complete!</strong> Spin for a coach!';
+            playerPool.innerHTML = `<div class="no-players">✅ All positions filled!</div>`;
+            updateStats();
+            coachSpinBtn.disabled = false;
+            unlockAchievement('full_lineup');
+        }
+
+        if (state.seasonResult) {
+            updateResultDisplay();
+            updateHeaderStats();
+        }
+    }
+
+    function renderPlayerPool(players, teamEraKey) {
+        if (!players || players.length === 0) {
+            playerPool.innerHTML = `<div class="no-players">No players available for this spin</div>`;
+            return;
+        }
+
+        playerPool.innerHTML = players.map(p => {
+            const isAlreadyInLineup = Object.values(state.lineup).some(lp => lp && lp.name === p.name && lp.pos === p.pos);
+            const posFilled = state.lineup[p.pos] !== null;
+            const disabled = isAlreadyInLineup || posFilled;
+
+            return `
+                <div class="player-card ${disabled ? 'disabled' : ''}" 
+                     data-name="${p.name}" data-pos="${p.pos}"
+                     style="${disabled ? 'opacity:0.3;cursor:not-allowed;' : ''}">
+                    <span class="player-avatar">${p.emoji || '🏀'}</span>
+                    ${p.name} <span class="pos">${p.pos}</span>
+                    <span class="card-stats">${p.ppg}ppg ${p.apg}apg ${p.rpg}rpg</span>
+                </div>
+            `;
+        }).join('');
+
+        document.querySelectorAll('.player-card:not(.disabled)').forEach(el => {
+            el.addEventListener('click', () => {
+                const name = el.dataset.name;
+                const pos = el.dataset.pos;
+                selectPlayer(name, pos);
+            });
+        });
+    }
+
+    function updateStats() {
+        const players = Object.values(state.lineup).filter(p => p !== null);
+        if (players.length === 0) return;
+
+        let totalPPG = 0, totalAPG = 0, totalRPG = 0, totalSPG = 0, totalBPG = 0, totalFG = 0, totalTP = 0;
+        players.forEach(p => {
+            totalPPG += p.ppg; totalAPG += p.apg; totalRPG += p.rpg;
+            totalSPG += p.spg; totalBPG += p.bpg; totalFG += p.fg; totalTP += p.tp;
+        });
+
+        const n = players.length;
+        const avgPPG = totalPPG / n, avgAPG = totalAPG / n, avgRPG = totalRPG / n;
+        const avgSPG = totalSPG / n, avgBPG = totalBPG / n, avgFG = totalFG / n, avgTP = totalTP / n;
+
+        // REBALANCED: More realistic overall calculation
+        let overall = Math.round(
+            (avgPPG / 30 * 30) + 
+            (avgAPG / 10 * 20) + 
+            (avgRPG / 15 * 20) + 
+            (avgSPG / 3 * 10) + 
+            (avgBPG / 3 * 10) + 
+            (avgFG / 100 * 10)
+        );
+        
+        // Offense and Defense ratings - REBALANCED
+        let offense = Math.round(
+            (avgPPG / 30 * 45) + 
+            (avgAPG / 10 * 25) + 
+            (avgFG / 100 * 30)
+        );
+        let defense = Math.round(
+            (avgSPG / 3 * 35) + 
+            (avgBPG / 3 * 35) + 
+            ((100 - avgFG) / 100 * 30)
+        );
+        
+        // Coach bonus applies to overall only, but affects both slightly
+        if (state.coach) {
+            overall = Math.min(100, overall + state.coach.bonus);
+            offense = Math.min(100, offense + Math.round(state.coach.bonus * 0.5));
+            defense = Math.min(100, defense + Math.round(state.coach.bonus * 0.5));
+        }
+
+        // Cap at 100
+        overall = Math.min(100, overall);
+        offense = Math.min(100, offense);
+        defense = Math.min(100, defense);
+
+        $('statPPG').textContent = avgPPG.toFixed(1);
+        $('statAPG').textContent = avgAPG.toFixed(1);
+        $('statRPG').textContent = avgRPG.toFixed(1);
+        $('statSPG').textContent = avgSPG.toFixed(1);
+        $('statBPG').textContent = avgBPG.toFixed(1);
+        $('statFG').textContent = avgFG.toFixed(0) + '%';
+        $('stat3P').textContent = avgTP.toFixed(0) + '%';
+        
+        const overallEl = $('statOverall');
+        overallEl.textContent = overall;
+        overallEl.className = 'stat-value ' + (overall >= 90 ? 'elite' : overall >= 80 ? 'great' : overall >= 70 ? 'good' : '');
+
+        $('offenseRating').textContent = offense;
+        $('defenseRating').textContent = defense;
+        $('offenseBar').style.width = offense + '%';
+        $('defenseBar').style.width = defense + '%';
+    }
+
+    function updateResultDisplay() {
+        if (!state.seasonResult) return;
+        const { wins, losses } = state.seasonResult;
+        const seasonLen = parseInt(state.settings.seasonLength) || 82;
+        
+        if (wins === seasonLen && wins === 82) {
+            resultDisplay.innerHTML = `<span class="perfect">🏆 82-0 PERFECT! 🏆</span>`;
+            unlockAchievement('perfect');
+        } else if (wins >= 70) {
+            resultDisplay.innerHTML = `<span style="color:#ffd700;font-size:1.6rem;">🔥 ${wins}-${losses} · Elite!</span>`;
+        } else {
+            resultDisplay.innerHTML = `<span class="wins">${wins}</span>-<span class="losses">${losses}</span>`;
+        }
+    }
+
+    function renderSchedule() {
+        if (!state.schedule || state.schedule.length === 0) {
+            scheduleContainer.innerHTML = `<div class="lb-empty">Simulate a season to see the full schedule!</div>`;
+            $('scheduleSummary').textContent = 'No season simulated';
+            return;
+        }
+
+        const wins = state.schedule.filter(g => g.result === 'win').length;
+        const losses = state.schedule.filter(g => g.result === 'loss').length;
+        $('scheduleSummary').textContent = `${wins} Wins · ${losses} Losses`;
+
+        scheduleContainer.innerHTML = `
+            <div class="schedule-grid">
+                ${state.schedule.map((game, i) => `
+                    <div class="schedule-game ${game.result || ''}">
+                        ${game.result === 'win' ? '✅' : game.result === 'loss' ? '❌' : '⚪'}<br>
+                        ${i + 1}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderLeaderboard() {
+        if (state.leaderboard.length === 0) {
+            lbEntries.innerHTML = `<div class="lb-empty">No entries yet. Simulate a season to appear!</div>`;
+            return;
+        }
+
+        const sorted = [...state.leaderboard].sort((a, b) => {
+            if (a.wins !== b.wins) return b.wins - a.wins;
+            return a.losses - b.losses;
+        });
+
+        lbEntries.innerHTML = sorted.map((entry, index) => {
+            const rank = index + 1;
+            let cls = '';
+            if (rank === 1) cls = 'top1';
+            else if (rank === 2) cls = 'top2';
+            else if (rank === 3) cls = 'top3';
+            
+            const players = entry.players || [];
+            const nameTags = players.map(p => 
+                `<span class="name-tag">${p.emoji || '🏀'} ${p.name}</span>`
+            ).join(' ');
+            
+            return `
+                <div class="lb-entry ${cls}">
+                    <span class="lb-rank">#${rank}</span>
+                    <span class="lb-player">${entry.playerName || 'Anonymous'}</span>
+                    <span class="lb-names">${nameTags}</span>
+                    <span class="lb-coach">${entry.coach || 'No Coach'}</span>
+                    <span class="lb-record">${entry.wins}-${entry.losses}</span>
+                    <span class="lb-date">${entry.date || ''}</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderAchievements() {
+        document.querySelectorAll('.achievement').forEach(el => {
+            const id = el.dataset.ach;
+            if (state.achievements.includes(id)) {
+                el.classList.add('unlocked');
+            } else {
+                el.classList.remove('unlocked');
+            }
+        });
+    }
+
+    function updateHeaderStats() {
+        const games = state.seasonResult ? state.seasonResult.wins + state.seasonResult.losses : 0;
+        headerGames.textContent = games;
+        headerWins.textContent = state.seasonResult ? state.seasonResult.wins : 0;
+        headerLosses.textContent = state.seasonResult ? state.seasonResult.losses : 0;
+        headerStreak.textContent = state.bestStreak || 0;
+        
+        // Update the result display too
+        if (state.seasonResult) {
+            resultWins.textContent = state.seasonResult.wins;
+            resultLosses.textContent = state.seasonResult.losses;
+        }
+    }
+
+    function updateSimButton() {
+        const isFull = isLineupFull();
+        simBtn.disabled = !isFull || !state.hasSpunCoach || state.seasonResult !== null;
+    }
+
+    // ============================================================
+    // 8. PLAYER NAME
+    // ============================================================
+    playerNameInput.addEventListener('input', function() {
+        state.playerName = this.value.trim();
+        nameStatus.textContent = state.playerName ? '✅ Name saved' : '⚠️ Enter your name';
+        saveGame();
+    });
+
+    // ============================================================
+    // 9. GAME LOGIC
+    // ============================================================
+    function spin() {
+        if (state.round > 5) return;
+        if (isLineupFull()) return;
+
+        spinWheel.classList.remove('active');
+        void spinWheel.offsetWidth;
+        spinWheel.classList.add('active');
+
+        const randomKey = TEAM_ERA_KEYS[Math.floor(Math.random() * TEAM_ERA_KEYS.length)];
+        const players = PLAYER_DB[randomKey] || [];
+        state.currentSpin.teamEraKey = randomKey;
+        state.currentSpin.players = players;
+
+        const [team, era] = randomKey.split('|');
+        
+        setTimeout(() => {
+            spinResult.innerHTML = `🏀 <span class="team">${team}</span> · <span class="era">${era}</span>`;
+            renderPlayerPool(players, randomKey);
+            spinWheel.classList.remove('active');
+        }, 800);
+    }
+
+    function selectPlayer(name, pos) {
+        if (state.lineup[pos]) {
+            showToast(`⚠️ ${pos} is already filled!`);
+            return;
+        }
+
+        const player = state.currentSpin.players.find(p => p.name === name && p.pos === pos);
+        if (!player) return;
+
+        const alreadyIn = Object.values(state.lineup).some(lp => lp && lp.name === player.name && lp.pos === player.pos);
+        if (alreadyIn) {
+            showToast(`⚠️ ${player.name} is already in your lineup!`);
+            return;
+        }
+
+        state.lineup[pos] = { ...player };
+        state.round++;
+
+        state.currentSpin.players = [];
+        state.currentSpin.teamEraKey = null;
+
+        renderLineup();
+        
+        if (!isLineupFull()) {
+            spinResult.innerHTML = `✅ <strong>${player.name}</strong> added as ${pos}! Spin again.`;
+            playerPool.innerHTML = `<div class="no-players">Spin to get more players</div>`;
+        }
+        
+        saveGame();
+    }
+
+    function isLineupFull() {
+        return POSITIONS.every(pos => state.lineup[pos] !== null);
+    }
+
+    // ============================================================
+    // 10. COACH SPIN
+    // ============================================================
+    function spinCoach() {
+        if (!isLineupFull()) return;
+        if (state.hasSpunCoach) return;
+
+        coachSpinBtn.disabled = true;
+        coachSpinBtn.textContent = '🎰 Spinning...';
+        
+        const availableCoaches = COACHES.filter(c => c.id !== 'none');
+        const randomCoach = availableCoaches[Math.floor(Math.random() * availableCoaches.length)];
+        
+        setTimeout(() => {
+            state.coach = randomCoach;
+            state.hasSpunCoach = true;
+            
+            coachName.textContent = randomCoach.emoji + ' ' + randomCoach.name;
+            coachBonus.textContent = `+${randomCoach.bonus} Overall`;
+            coachDesc.textContent = randomCoach.desc + ` (${randomCoach.tier})`;
+            coachDisplay.style.borderColor = randomCoach.bonus >= 4 ? '#ffd700' : randomCoach.bonus >= 3 ? '#6fc3ff' : 'rgba(255,255,255,0.06)';
+            
+            coachSpinBtn.textContent = '✅ Coach Hired!';
+            coachSpinBtn.disabled = true;
+            
+            updateStats();
+            updateSimButton();
+            saveGame();
+            unlockAchievement('first_coach');
+            if (randomCoach.tier === 'Legendary') unlockAchievement('legendary_coach');
+            
+            spinResult.innerHTML = `🧑‍🏫 <strong>${randomCoach.name}</strong> is your coach! (+${randomCoach.bonus} overall)`;
+            showToast(`🧑‍🏫 Hired ${randomCoach.name}! +${randomCoach.bonus} overall`);
+        }, 1000);
+    }
+
+    // ============================================================
+    // 11. SIMULATE SEASON (REBALANCED)
+    // ============================================================
+    function simulateSeason() {
+        if (!isLineupFull()) { showToast('Fill all 5 positions first!'); return; }
+        if (!state.hasSpunCoach) { showToast('Spin for a coach first!'); return; }
+        if (state.seasonResult) { showToast('Season already simulated! Reset to try again.'); return; }
+
+        const players = Object.values(state.lineup).filter(p => p !== null);
+        
+        // Calculate team rating from stats (REBALANCED)
+        let totalPPG = 0, totalAPG = 0, totalRPG = 0, totalSPG = 0, totalBPG = 0, totalFG = 0;
+        players.forEach(p => {
+            totalPPG += p.ppg; totalAPG += p.apg; totalRPG += p.rpg;
+            totalSPG += p.spg; totalBPG += p.bpg; totalFG += p.fg;
+        });
+
+        const n = players.length;
+        const avgPPG = totalPPG / n, avgAPG = totalAPG / n, avgRPG = totalRPG / n;
+        const avgSPG = totalSPG / n, avgBPG = totalBPG / n, avgFG = totalFG / n;
+
+        // REBALANCED: More realistic win probability
+        let rating = 
+            (avgPPG / 30 * 30) + 
+            (avgAPG / 10 * 20) + 
+            (avgRPG / 15 * 20) + 
+            (avgSPG / 3 * 10) + 
+            (avgBPG / 3 * 10) + 
+            (avgFG / 100 * 10);
+        
+        if (state.coach) rating += state.coach.bonus;
+
+        // Difficulty modifiers (REBALANCED)
+        const diffMap = { easy: 1.08, normal: 1.0, hard: 0.92, legendary: 0.82 };
+        const diffMod = diffMap[state.settings.difficulty] || 1.0;
+        rating *= diffMod;
+
+        // Cap rating
+        rating = Math.min(100, Math.max(20, rating));
+
+        const seasonLen = parseInt(state.settings.seasonLength) || 82;
+        let wins = 0, losses = 0;
+        const schedule = [];
+        let currentStreak = 0, bestStreak = 0;
+
+        for (let i = 0; i < seasonLen; i++) {
+            // Reduced randomness for more consistency
+            const variance = (Math.random() - 0.5) * 14;
+            let winProb = (rating + variance) / 100;
+            winProb = Math.min(0.92, Math.max(0.08, winProb));
+            
+            if (Math.random() < winProb) {
+                wins++;
+                currentStreak++;
+                bestStreak = Math.max(bestStreak, currentStreak);
+                schedule.push({ result: 'win' });
+            } else {
+                losses++;
+                currentStreak = 0;
+                schedule.push({ result: 'loss' });
+            }
+        }
+
+        state.schedule = schedule;
+        state.seasonResult = { wins, losses };
+        state.bestStreak = Math.max(state.bestStreak || 0, bestStreak);
+        state.totalSeasons++;
+        state.totalWins += wins;
+        state.totalLosses += losses;
+
+        // Check season count achievements
+        if (state.totalSeasons >= 3) unlockAchievement('three_seasons');
+        if (state.totalSeasons >= 10) unlockAchievement('ten_seasons');
+
+        // Add to leaderboard with player name
+        const entry = {
+            wins, losses,
+            players: Object.values(state.lineup).filter(p => p !== null),
+            coach: state.coach ? state.coach.name : 'No Coach',
+            date: new Date().toLocaleDateString(),
+            seasonLength: seasonLen,
+            playerName: state.playerName || 'Anonymous',
+        };
+        state.leaderboard.push(entry);
+        if (state.leaderboard.length > 50) state.leaderboard = state.leaderboard.slice(-50);
+
+        updateResultDisplay();
+        renderSchedule();
+        renderLeaderboard();
+        renderAchievements();
+        unlockAchievement('first_sim');
+        
+        // Check win achievements
+        if (wins >= 80) unlockAchievement('eighty_wins');
+        if (wins >= 70) unlockAchievement('seventy_wins');
+        if (wins >= 60) unlockAchievement('sixty_wins');
+        if (wins >= 50) unlockAchievement('fifty_wins');
+        if (wins >= 40) unlockAchievement('forty_wins');
+        if (wins >= 30) unlockAchievement('thirty_wins');
+        if (wins >= 20) unlockAchievement('twenty_wins');
+        if (wins >= 10) unlockAchievement('ten_wins');
+        if (wins > 0) unlockAchievement('first_win');
+        
+        saveGame();
+        updateSimButton();
+        updateHeaderStats();
+        showToast(`🏆 Season complete! ${wins}-${losses}`);
+    }
+
+    // ============================================================
+    // 12. ACHIEVEMENTS
+    // ============================================================
+    function unlockAchievement(id) {
+        if (!state.achievements.includes(id)) {
+            state.achievements.push(id);
+            renderAchievements();
+            const names = {
+                'first_win': '🏆 First Win!',
+                'ten_wins': '📈 10 Wins!',
+                'twenty_wins': '📈 20 Wins!',
+                'thirty_wins': '📈 30 Wins!',
+                'forty_wins': '📈 40 Wins!',
+                'fifty_wins': '📈 50 Wins!',
+                'sixty_wins': '📈 60 Wins!',
+                'seventy_wins': '📈 70 Wins!',
+                'eighty_wins': '📈 80 Wins!',
+                'perfect': '🏆 82-0 PERFECT SEASON!!!',
+                'first_coach': '🧑‍🏫 First Coach Hired!',
+                'legendary_coach': '👑 Legendary Coach!',
+                'full_lineup': '✅ Full Lineup!',
+                'first_sim': '🎮 First Simulation!',
+                'three_seasons': '📅 3 Seasons Played!',
+                'ten_seasons': '📅 10 Seasons Played!',
+            };
+            showToast(`🎯 Achievement: ${names[id] || id}`);
+            saveGame();
+        }
+    }
+
+    // ============================================================
+    // 13. SHARE
+    // ============================================================
+    shareBtn.addEventListener('click', function() {
+        const players = Object.values(state.lineup).filter(p => p !== null);
+        if (players.length === 0) {
+            showToast('Build a lineup first!');
+            return;
+        }
+        const names = players.map(p => p.name).join(', ');
+        const coach = state.coach ? state.coach.name : 'No Coach';
+        const record = state.seasonResult ? `${state.seasonResult.wins}-${state.seasonResult.losses}` : 'Not simulated';
+        const name = state.playerName || 'Anonymous';
+        const text = `🏀 My 82-0 Team!\n\n👤 ${name}\n👥 ${names}\n🧑‍🏫 ${coach}\n📊 Record: ${record}\n\nCan you beat this? 🏆`;
+        
+        if (navigator.share) {
+            navigator.share({ title: '🏀 My 82-0 Team', text: text }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('📋 Team copied to clipboard!');
+            }).catch(() => {
+                showToast('📋 ' + text);
+            });
+        }
+    });
+
+    // ============================================================
+    // 14. SETTINGS
+    // ============================================================
+    difficultySelect.addEventListener('change', function() {
+        state.settings.difficulty = this.value;
+        saveGame();
+        showToast(`⚙️ Difficulty set to ${this.value}`);
+    });
+
+    seasonLength.addEventListener('change', function() {
+        state.settings.seasonLength = parseInt(this.value);
+        saveGame();
+        showToast(`⚙️ Season length set to ${this.value} games`);
+    });
+
+    toggleAutoSave.addEventListener('click', function() {
+        state.settings.autoSave = !state.settings.autoSave;
+        this.textContent = state.settings.autoSave ? '✅ ON' : '❌ OFF';
+        showToast(`💾 Auto-save ${state.settings.autoSave ? 'enabled' : 'disabled'}`);
+        saveGame();
+    });
+
+    // ============================================================
+    // 15. EXPORT/IMPORT
+    // ============================================================
+    exportDataBtn.addEventListener('click', function() {
+        const data = { version: '3.0', state: state, date: new Date().toISOString() };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `82game_backup_${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('📤 Data exported!');
+    });
+
+    importDataBtn.addEventListener('click', () => importFile.click());
+    importFile.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            try {
+                const data = JSON.parse(ev.target.result);
+                if (data.state) {
+                    Object.assign(state, data.state);
+                    if (!state.leaderboard) state.leaderboard = [];
+                    if (!state.achievements) state.achievements = [];
+                    
+                    if (state.playerName) {
+                        playerNameInput.value = state.playerName;
+                        nameStatus.textContent = '✅ Name loaded';
+                    }
+                    
+                    renderLineup();
+                    if (state.isLineupComplete) {
+                        coachSection.classList.add('visible');
+                        statsArea.classList.add('visible');
+                        if (state.coach) {
+                            coachName.textContent = state.coach.emoji + ' ' + state.coach.name;
+                            coachBonus.textContent = `+${state.coach.bonus} Overall`;
+                            coachDesc.textContent = state.coach.desc + ` (${state.coach.tier})`;
+                            coachDisplay.style.borderColor = state.coach.bonus >= 4 ? '#ffd700' : state.coach.bonus >= 3 ? '#6fc3ff' : 'rgba(255,255,255,0.06)';
+                            coachSpinBtn.textContent = '✅ Coach Hired!';
+                            coachSpinBtn.disabled = true;
+                        }
+                        updateStats();
+                    }
+                    if (state.seasonResult) {
+                        updateResultDisplay();
+                        renderSchedule();
+                    }
+                    renderLeaderboard();
+                    renderAchievements();
+                    updateHeaderStats();
+                    updateSimButton();
+                    saveGame();
+                    showToast('📥 Data imported!');
+                }
+            } catch(err) {
+                showToast('❌ Import failed: ' + err.message);
+            }
+        };
+        reader.readAsText(file);
+        this.value = '';
+    });
+
+    // ============================================================
+    // 16. RESET
+    // ============================================================
+    function resetGame() {
+        state = {
+            round: 1,
+            lineup: { PG: null, SG: null, SF: null, PF: null, C: null },
+            currentSpin: { teamEraKey: null, players: [] },
+            seasonResult: null,
+            schedule: [],
+            coach: null,
+            isLineupComplete: false,
+            hasSpunCoach: false,
+            leaderboard: state.leaderboard || [],
+            achievements: state.achievements || [],
+            settings: state.settings || { difficulty: 'normal', seasonLength: 82, autoSave: true },
+            bestStreak: state.bestStreak || 0,
+            totalSeasons: state.totalSeasons || 0,
+            totalWins: state.totalWins || 0,
+            totalLosses: state.totalLosses || 0,
+            playerName: state.playerName || '',
+        };
+        
+        coachSection.classList.remove('visible');
+        statsArea.classList.remove('visible');
+        coachDisplay.style.borderColor = 'rgba(255,255,255,0.06)';
+        coachName.textContent = 'No Coach';
+        coachBonus.textContent = '+0 Overall';
+        coachDesc.textContent = 'Spin to hire a coach!';
+        coachSpinBtn.textContent = '🎰 SPIN FOR COACH';
+        coachSpinBtn.disabled = true;
+        
+        spinResult.innerHTML = '🔄 Reset! Press <strong>SPIN</strong> to start.';
+        playerPool.innerHTML = `<div class="no-players">Spin to reveal available players</div>`;
+        resultDisplay.innerHTML = `<span class="wins">0</span>-<span class="losses">0</span>`;
+        scheduleContainer.innerHTML = `<div class="lb-empty">Simulate a season to see the full schedule!</div>`;
+        $('scheduleSummary').textContent = 'No season simulated';
+        
+        renderLineup();
+        updateSimButton();
+        updateHeaderStats();
+        saveGame();
+        showToast('🔄 Reset complete!');
+    }
+
+    // ============================================================
+    // 17. SAVE/LOAD
+    // ============================================================
+    function saveGame() {
+        if (!state.settings.autoSave) return;
+        try {
+            const data = {
+                lineup: state.lineup,
+                seasonResult: state.seasonResult,
+                schedule: state.schedule,
+                coach: state.coach,
+                round: state.round,
+                isLineupComplete: state.isLineupComplete,
+                hasSpunCoach: state.hasSpunCoach,
+                leaderboard: state.leaderboard,
+                achievements: state.achievements,
+                settings: state.settings,
+                bestStreak: state.bestStreak,
+                totalSeasons: state.totalSeasons,
+                totalWins: state.totalWins,
+                totalLosses: state.totalLosses,
+                currentSpin: state.currentSpin,
+                playerName: state.playerName,
+            };
+            localStorage.setItem('82game_state', JSON.stringify(data));
+            saveStatus.textContent = '💾 Auto-saved';
+        } catch(e) {}
+    }
+
+    function loadGame() {
+        try {
+            const saved = localStorage.getItem('82game_state');
+            if (saved) {
+                const data = JSON.parse(saved);
+                state.lineup = data.lineup || { PG: null, SG: null, SF: null, PF: null, C: null };
+                state.seasonResult = data.seasonResult || null;
+                state.schedule = data.schedule || [];
+                state.coach = data.coach || null;
+                state.round = data.round || 1;
+                state.isLineupComplete = data.isLineupComplete || false;
+                state.hasSpunCoach = data.hasSpunCoach || false;
+                state.leaderboard = data.leaderboard || [];
+                state.achievements = data.achievements || [];
+                state.settings = data.settings || { difficulty: 'normal', seasonLength: 82, autoSave: true };
+                state.bestStreak = data.bestStreak || 0;
+                state.totalSeasons = data.totalSeasons || 0;
+                state.totalWins = data.totalWins || 0;
+                state.totalLosses = data.totalLosses || 0;
+                state.currentSpin = data.currentSpin || { teamEraKey: null, players: [] };
+                state.playerName = data.playerName || '';
+                
+                if (state.playerName) {
+                    playerNameInput.value = state.playerName;
+                    nameStatus.textContent = '✅ Name loaded';
+                }
+                
+                difficultySelect.value = state.settings.difficulty || 'normal';
+                seasonLength.value = state.settings.seasonLength || 82;
+                toggleAutoSave.textContent = state.settings.autoSave ? '✅ ON' : '❌ OFF';
+                
+                renderLineup();
+                
+                if (state.isLineupComplete) {
+                    coachSection.classList.add('visible');
+                    statsArea.classList.add('visible');
+                    if (state.coach) {
+                        coachName.textContent = state.coach.emoji + ' ' + state.coach.name;
+                        coachBonus.textContent = `+${state.coach.bonus} Overall`;
+                        coachDesc.textContent = state.coach.desc + ` (${state.coach.tier})`;
+                        coachDisplay.style.borderColor = state.coach.bonus >= 4 ? '#ffd700' : state.coach.bonus >= 3 ? '#6fc3ff' : 'rgba(255,255,255,0.06)';
+                        coachSpinBtn.textContent = '✅ Coach Hired!';
+                        coachSpinBtn.disabled = true;
+                    } else {
+                        coachSpinBtn.disabled = false;
+                    }
+                    updateStats();
+                }
+                
+                if (state.seasonResult) {
+                    updateResultDisplay();
+                    renderSchedule();
+                }
+                
+                renderLeaderboard();
+                renderAchievements();
+                updateHeaderStats();
+                updateSimButton();
+                return true;
+            }
+        } catch(e) {}
+        return false;
+    }
+
+    // ============================================================
+    // 18. LEADERBOARD CLEAR
+    // ============================================================
+    clearLB.addEventListener('click', function() {
+        state.leaderboard = [];
+        renderLeaderboard();
+        saveGame();
+        showToast('🗑️ Leaderboard cleared');
+    });
+
+    // ============================================================
+    // 19. KEYBOARD SHORTCUTS
+    // ============================================================
+    document.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Space') {
+            e.preventDefault();
+            if (!spinBtn.disabled) spinBtn.click();
+        }
+        if (e.key === 'c' || e.key === 'C') {
+            if (!coachSpinBtn.disabled) coachSpinBtn.click();
+        }
+        if (e.key === 's' || e.key === 'S') {
+            if (!simBtn.disabled) simBtn.click();
+        }
+        if (e.key === 'r' || e.key === 'R') {
+            resetBtn.click();
+        }
+    });
+
+    // ============================================================
+    // 20. INIT
+    // ============================================================
+    if (!loadGame()) {
+        renderLineup();
+        spinResult.innerHTML = '🎲 Press <strong>SPIN</strong> to get a player';
+        playerPool.innerHTML = `<div class="no-players">Spin to reveal available players</div>`;
+        renderLeaderboard();
+        renderAchievements();
+        updateHeaderStats();
+        if (state.playerName) {
+            playerNameInput.value = state.playerName;
+        }
+    }
+
+    // Event listeners
+    spinBtn.addEventListener('click', spin);
+    coachSpinBtn.addEventListener('click', spinCoach);
+    simBtn.addEventListener('click', simulateSeason);
+    resetBtn.addEventListener('click', resetGame);
+
+    console.log('🏀 82-0 ULTIMATE EDITION 3.0 loaded!');
+    console.log('✅ Fixed: Player name on leaderboard, 82-0 display updates, rebalanced ratings');
+    console.log('🎮 SPACE = Spin Player | C = Spin Coach | S = Simulate | R = Reset');
+</script>
+</body>
+</html>
