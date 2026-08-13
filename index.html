@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🏀 82-0: Ultimate Edition v6.1</title>
+    <title>🏀 82-0: Ultimate Edition v6.3</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700;800&display=swap');
 
@@ -275,7 +275,6 @@
         .tab-content.active {
             display: block;
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -378,6 +377,9 @@
             color: var(--text-secondary);
             cursor: pointer;
             transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         .reroll-btn:hover:not(:disabled) {
             background: rgba(255, 255, 255, 0.1);
@@ -393,6 +395,9 @@
         .reroll-btn .count {
             color: var(--primary);
             font-weight: 800;
+        }
+        .reroll-btn.used {
+            display: none;
         }
 
         .spin-wheel {
@@ -452,6 +457,9 @@
         .spin-info-item .value {
             color: var(--text-primary);
             font-weight: 700;
+        }
+        .spin-info-item .value.used {
+            color: #f28b82;
         }
 
         .player-pool {
@@ -598,84 +606,6 @@
             color: var(--primary);
             font-size: 0.65rem;
             font-weight: 700;
-        }
-
-        /* TEAMS PAGE */
-        .teams-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            margin-top: 12px;
-        }
-        .team-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 14px;
-            padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: 0.3s;
-        }
-        .team-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-2px);
-        }
-        .team-card .team-name {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding-bottom: 8px;
-        }
-        .team-card .team-era {
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-        .team-player {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-        .team-player:last-child {
-            border-bottom: none;
-        }
-        .team-player .tp-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            background: #1a2642;
-            flex-shrink: 0;
-        }
-        .team-player .tp-avatar.fallback {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-        }
-        .team-player .tp-name {
-            color: var(--text-primary);
-            font-size: 0.8rem;
-            font-weight: 600;
-            flex: 1;
-        }
-        .team-player .tp-pos {
-            color: #ffb347;
-            font-size: 0.6rem;
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.06);
-            padding: 1px 8px;
-            border-radius: 20px;
-        }
-        .team-player .tp-ppg {
-            color: var(--text-muted);
-            font-size: 0.65rem;
-            font-weight: 500;
         }
 
         .coach-section {
@@ -970,6 +900,15 @@
             font-size: 2rem;
             animation: glowPulse 1.5s ease-in-out infinite;
         }
+        @keyframes glowPulse {
+            0%,
+            100% {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.1);
+            }
+        }
 
         .save-status {
             color: var(--text-muted);
@@ -991,7 +930,6 @@
             display: block;
             animation: fadeIn 0.5s ease;
         }
-
         .lb-difficulty-tabs {
             display: flex;
             gap: 4px;
@@ -1028,7 +966,6 @@
             font-size: 0.6rem;
             margin-left: 4px;
         }
-
         .lb-entries-container {
             max-height: 400px;
             overflow-y: auto;
@@ -1044,7 +981,6 @@
             background: rgba(255, 255, 255, 0.08);
             border-radius: 10px;
         }
-
         .lb-entry {
             display: flex;
             justify-content: space-between;
@@ -1391,9 +1327,6 @@
                 padding: 4px 12px;
                 font-size: 0.65rem;
             }
-            .teams-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            }
         }
         @media (max-width: 400px) {
             .lineup {
@@ -1426,9 +1359,6 @@
             .reset-btn .shortcut {
                 display: none;
             }
-            .teams-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -1443,7 +1373,7 @@
             <div class="logo">
                 <span class="logo-icon">🏀</span>
                 <h1>82-0</h1>
-                <span class="version">v6.1</span>
+                <span class="version">v6.3</span>
             </div>
             <div class="header-stats">
                 <div class="header-stat">
@@ -1598,7 +1528,6 @@
             </div>
         </div>
 
-        <!-- TEAMS TAB -->
         <div class="tab-content" id="tab-teams">
             <span style="color:var(--text-secondary);font-size:0.85rem;font-weight:700;display:block;margin-bottom:10px;">🏀 All Teams & Players</span>
             <div class="teams-grid" id="teamsContainer"></div>
@@ -1836,283 +1765,434 @@
                 "Josh Green": "https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/4395663.png",
                 "Dwight Powell": "https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/2991023.png",
                 "Maxi Kleber": "https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/3059330.png",
-                "Shawn Marion": "https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/510.png&w=350&h=254",
-                "Tyson Chandler": "https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/984.png&w=350&h=254",
+                "Shawn Marion": "https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/510.png",
+                "Tyson Chandler": "https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/984.png",
             };
             return urls[name] || null;
         }
 
         // ============================================================
+        // COMPLETE PLAYER DATABASE - NO DUPLICATES!
         // ============================================================
-// COMPLETE PLAYER DATABASE - NO DUPLICATES!
-// Each player appears ONCE across ALL teams
-// All positions covered (PG, SG, SF, PF, C)
-// ============================================================
+        const PLAYER_DB = {
+            // ---- LAKERS ----
+            "Lakers|1980s": [
+                { name: "Magic Johnson", pos: "PG", ppg: 19.5, apg: 11.2, rpg: 7.2, spg: 1.9, bpg: 0.4, fg: 52, tp: 30,
+                    emoji: "🌟" },
+                { name: "Byron Scott", pos: "SG", ppg: 15.2, apg: 2.8, rpg: 3.2, spg: 1.1, bpg: 0.3, fg: 48, tp: 38,
+                    emoji: "🎯" },
+                { name: "James Worthy", pos: "SF", ppg: 17.6, apg: 2.8, rpg: 5.1, spg: 1.2, bpg: 0.6, fg: 52, tp: 25,
+                    emoji: "🔥" },
+                { name: "Michael Cooper", pos: "PF", ppg: 10.5, apg: 4.5, rpg: 3.8, spg: 1.4, bpg: 0.8, fg: 46, tp: 35,
+                    emoji: "🛡️" },
+                { name: "Kareem Abdul-Jabbar", pos: "C", ppg: 24.8, apg: 3.2, rpg: 10.8, spg: 0.8, bpg: 2.4, fg: 57, tp: 0,
+                    emoji: "🏀" },
+            ],
+            "Lakers|2000s": [
+                { name: "Derek Fisher", pos: "PG", ppg: 10.2, apg: 4.8, rpg: 2.8, spg: 1.2, bpg: 0.1, fg: 43, tp: 38,
+                    emoji: "🎯" },
+                { name: "Kobe Bryant", pos: "SG", ppg: 27.4, apg: 5.2, rpg: 5.8, spg: 1.6, bpg: 0.5, fg: 45, tp: 33,
+                    emoji: "🐍" },
+                { name: "Lamar Odom", pos: "SF", ppg: 14.2, apg: 4.2, rpg: 8.6, spg: 0.9, bpg: 0.7, fg: 47, tp: 32,
+                    emoji: "🔄" },
+                { name: "Pau Gasol", pos: "PF", ppg: 18.8, apg: 3.5, rpg: 9.5, spg: 0.5, bpg: 1.4, fg: 52, tp: 25,
+                    emoji: "🇪🇸" },
+                { name: "Shaquille O'Neal", pos: "C", ppg: 27.0, apg: 2.8, rpg: 11.8, spg: 0.6, bpg: 2.5, fg: 58, tp: 0,
+                    emoji: "💪" },
+            ],
+            "Lakers|2010s": [
+                { name: "D'Angelo Russell", pos: "PG", ppg: 18.5, apg: 6.2, rpg: 4.0, spg: 1.0, bpg: 0.3, fg: 44, tp: 36,
+                    emoji: "🎭" },
+                { name: "Austin Reaves", pos: "SG", ppg: 16.0, apg: 4.5, rpg: 4.0, spg: 0.8, bpg: 0.4, fg: 47, tp: 38,
+                    emoji: "⭐" },
+                { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35,
+                    emoji: "👑" },
+                { name: "Anthony Davis", pos: "PF", ppg: 24.0, apg: 3.0, rpg: 10.4, spg: 1.4, bpg: 2.4, fg: 51, tp: 32,
+                    emoji: "📏" },
+                { name: "Jaxson Hayes", pos: "C", ppg: 6.0, apg: 0.8, rpg: 4.5, spg: 0.5, bpg: 0.8, fg: 58, tp: 0,
+                    emoji: "💪" },
+            ],
 
-const PLAYER_DB = {
-    // ---- LAKERS ----
-    "Lakers|1980s": [
-        { name: "Magic Johnson", pos: "PG", ppg: 19.5, apg: 11.2, rpg: 7.2, spg: 1.9, bpg: 0.4, fg: 52, tp: 30, emoji: "🌟" },
-        { name: "Byron Scott", pos: "SG", ppg: 15.2, apg: 2.8, rpg: 3.2, spg: 1.1, bpg: 0.3, fg: 48, tp: 38, emoji: "🎯" },
-        { name: "James Worthy", pos: "SF", ppg: 17.6, apg: 2.8, rpg: 5.1, spg: 1.2, bpg: 0.6, fg: 52, tp: 25, emoji: "🔥" },
-        { name: "Michael Cooper", pos: "PF", ppg: 10.5, apg: 4.5, rpg: 3.8, spg: 1.4, bpg: 0.8, fg: 46, tp: 35, emoji: "🛡️" },
-        { name: "Kareem Abdul-Jabbar", pos: "C", ppg: 24.8, apg: 3.2, rpg: 10.8, spg: 0.8, bpg: 2.4, fg: 57, tp: 0, emoji: "🏀" },
-    ],
-    "Lakers|2000s": [
-        { name: "Derek Fisher", pos: "PG", ppg: 10.2, apg: 4.8, rpg: 2.8, spg: 1.2, bpg: 0.1, fg: 43, tp: 38, emoji: "🎯" },
-        { name: "Kobe Bryant", pos: "SG", ppg: 27.4, apg: 5.2, rpg: 5.8, spg: 1.6, bpg: 0.5, fg: 45, tp: 33, emoji: "🐍" },
-        { name: "Lamar Odom", pos: "SF", ppg: 14.2, apg: 4.2, rpg: 8.6, spg: 0.9, bpg: 0.7, fg: 47, tp: 32, emoji: "🔄" },
-        { name: "Pau Gasol", pos: "PF", ppg: 18.8, apg: 3.5, rpg: 9.5, spg: 0.5, bpg: 1.4, fg: 52, tp: 25, emoji: "🇪🇸" },
-        { name: "Shaquille O'Neal", pos: "C", ppg: 27.0, apg: 2.8, rpg: 11.8, spg: 0.6, bpg: 2.5, fg: 58, tp: 0, emoji: "💪" },
-    ],
-    "Lakers|2010s": [
-        { name: "D'Angelo Russell", pos: "PG", ppg: 18.5, apg: 6.2, rpg: 4.0, spg: 1.0, bpg: 0.3, fg: 44, tp: 36, emoji: "🎭" },
-        { name: "Austin Reaves", pos: "SG", ppg: 16.0, apg: 4.5, rpg: 4.0, spg: 0.8, bpg: 0.4, fg: 47, tp: 38, emoji: "⭐" },
-        { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35, emoji: "👑" },
-        { name: "Anthony Davis", pos: "PF", ppg: 24.0, apg: 3.0, rpg: 10.4, spg: 1.4, bpg: 2.4, fg: 51, tp: 32, emoji: "📏" },
-        { name: "Jaxson Hayes", pos: "C", ppg: 6.0, apg: 0.8, rpg: 4.5, spg: 0.5, bpg: 0.8, fg: 58, tp: 0, emoji: "💪" },
-    ],
+            // ---- CELTICS ----
+            "Celtics|1980s": [
+                { name: "Dennis Johnson", pos: "PG", ppg: 14.0, apg: 6.8, rpg: 3.8, spg: 1.3, bpg: 0.5, fg: 46, tp: 32,
+                    emoji: "⚡" },
+                { name: "Danny Ainge", pos: "SG", ppg: 11.5, apg: 4.8, rpg: 3.2, spg: 1.2, bpg: 0.2, fg: 47, tp: 38,
+                    emoji: "🎯" },
+                { name: "Larry Bird", pos: "SF", ppg: 24.3, apg: 6.3, rpg: 10.0, spg: 1.7, bpg: 0.8, fg: 50, tp: 38,
+                    emoji: "🐦" },
+                { name: "Kevin McHale", pos: "PF", ppg: 18.4, apg: 2.2, rpg: 7.5, spg: 0.5, bpg: 1.8, fg: 55, tp: 20,
+                    emoji: "🦴" },
+                { name: "Robert Parish", pos: "C", ppg: 16.5, apg: 1.8, rpg: 10.0, spg: 0.8, bpg: 1.5, fg: 54, tp: 0,
+                    emoji: "🏛️" },
+            ],
+            "Celtics|2000s": [
+                { name: "Rajon Rondo", pos: "PG", ppg: 11.9, apg: 9.8, rpg: 5.2, spg: 2.0, bpg: 0.2, fg: 48, tp: 25,
+                    emoji: "🧠" },
+                { name: "Ray Allen", pos: "SG", ppg: 18.9, apg: 2.6, rpg: 4.2, spg: 1.0, bpg: 0.2, fg: 46, tp: 40,
+                    emoji: "🎯" },
+                { name: "Paul Pierce", pos: "SF", ppg: 21.8, apg: 4.5, rpg: 6.2, spg: 1.2, bpg: 0.5, fg: 45, tp: 37,
+                    emoji: "🔪" },
+                { name: "Kevin Garnett", pos: "PF", ppg: 18.8, apg: 3.8, rpg: 9.2, spg: 1.4, bpg: 1.2, fg: 50, tp: 25,
+                    emoji: "🐺" },
+                { name: "Kendrick Perkins", pos: "C", ppg: 8.0, apg: 1.2, rpg: 7.2, spg: 0.4, bpg: 1.5, fg: 52, tp: 0,
+                    emoji: "💪" },
+            ],
+            "Celtics|2010s": [
+                { name: "Marcus Smart", pos: "PG", ppg: 12.1, apg: 5.0, rpg: 4.0, spg: 1.6, bpg: 0.5, fg: 38, tp: 33,
+                    emoji: "🛡️" },
+                { name: "Jaylen Brown", pos: "SG", ppg: 20.4, apg: 3.4, rpg: 5.8, spg: 1.0, bpg: 0.4, fg: 47, tp: 36,
+                    emoji: "⚡" },
+                { name: "Jayson Tatum", pos: "SF", ppg: 23.4, apg: 4.2, rpg: 7.0, spg: 1.0, bpg: 0.6, fg: 46, tp: 38,
+                    emoji: "⭐" },
+                { name: "Al Horford", pos: "PF", ppg: 14.2, apg: 4.0, rpg: 8.0, spg: 0.8, bpg: 1.2, fg: 50, tp: 36,
+                    emoji: "🇩🇴" },
+                { name: "Robert Williams", pos: "C", ppg: 8.0, apg: 1.8, rpg: 8.3, spg: 0.6, bpg: 1.5, fg: 73, tp: 0,
+                    emoji: "🦅" },
+            ],
 
-    // ---- CELTICS ----
-    "Celtics|1980s": [
-        { name: "Dennis Johnson", pos: "PG", ppg: 14.0, apg: 6.8, rpg: 3.8, spg: 1.3, bpg: 0.5, fg: 46, tp: 32, emoji: "⚡" },
-        { name: "Danny Ainge", pos: "SG", ppg: 11.5, apg: 4.8, rpg: 3.2, spg: 1.2, bpg: 0.2, fg: 47, tp: 38, emoji: "🎯" },
-        { name: "Larry Bird", pos: "SF", ppg: 24.3, apg: 6.3, rpg: 10.0, spg: 1.7, bpg: 0.8, fg: 50, tp: 38, emoji: "🐦" },
-        { name: "Kevin McHale", pos: "PF", ppg: 18.4, apg: 2.2, rpg: 7.5, spg: 0.5, bpg: 1.8, fg: 55, tp: 20, emoji: "🦴" },
-        { name: "Robert Parish", pos: "C", ppg: 16.5, apg: 1.8, rpg: 10.0, spg: 0.8, bpg: 1.5, fg: 54, tp: 0, emoji: "🏛️" },
-    ],
-    "Celtics|2000s": [
-        { name: "Rajon Rondo", pos: "PG", ppg: 11.9, apg: 9.8, rpg: 5.2, spg: 2.0, bpg: 0.2, fg: 48, tp: 25, emoji: "🧠" },
-        { name: "Ray Allen", pos: "SG", ppg: 18.9, apg: 2.6, rpg: 4.2, spg: 1.0, bpg: 0.2, fg: 46, tp: 40, emoji: "🎯" },
-        { name: "Paul Pierce", pos: "SF", ppg: 21.8, apg: 4.5, rpg: 6.2, spg: 1.2, bpg: 0.5, fg: 45, tp: 37, emoji: "🔪" },
-        { name: "Kevin Garnett", pos: "PF", ppg: 18.8, apg: 3.8, rpg: 9.2, spg: 1.4, bpg: 1.2, fg: 50, tp: 25, emoji: "🐺" },
-        { name: "Kendrick Perkins", pos: "C", ppg: 8.0, apg: 1.2, rpg: 7.2, spg: 0.4, bpg: 1.5, fg: 52, tp: 0, emoji: "💪" },
-    ],
-    "Celtics|2010s": [
-        { name: "Marcus Smart", pos: "PG", ppg: 12.1, apg: 5.0, rpg: 4.0, spg: 1.6, bpg: 0.5, fg: 38, tp: 33, emoji: "🛡️" },
-        { name: "Jaylen Brown", pos: "SG", ppg: 20.4, apg: 3.4, rpg: 5.8, spg: 1.0, bpg: 0.4, fg: 47, tp: 36, emoji: "⚡" },
-        { name: "Jayson Tatum", pos: "SF", ppg: 23.4, apg: 4.2, rpg: 7.0, spg: 1.0, bpg: 0.6, fg: 46, tp: 38, emoji: "⭐" },
-        { name: "Al Horford", pos: "PF", ppg: 14.2, apg: 4.0, rpg: 8.0, spg: 0.8, bpg: 1.2, fg: 50, tp: 36, emoji: "🇩🇴" },
-        { name: "Robert Williams", pos: "C", ppg: 8.0, apg: 1.8, rpg: 8.3, spg: 0.6, bpg: 1.5, fg: 73, tp: 0, emoji: "🦅" },
-    ],
+            // ---- BULLS ----
+            "Bulls|1990s": [
+                { name: "Steve Kerr", pos: "PG", ppg: 7.5, apg: 2.5, rpg: 1.5, spg: 0.6, bpg: 0.1, fg: 50, tp: 45,
+                    emoji: "🎯" },
+                { name: "Michael Jordan", pos: "SG", ppg: 30.1, apg: 5.3, rpg: 6.2, spg: 2.3, bpg: 0.8, fg: 50, tp: 33,
+                    emoji: "🐐" },
+                { name: "Scottie Pippen", pos: "SF", ppg: 18.1, apg: 6.8, rpg: 7.0, spg: 2.0, bpg: 0.9, fg: 48, tp: 33,
+                    emoji: "🦸" },
+                { name: "Dennis Rodman", pos: "PF", ppg: 5.2, apg: 2.0, rpg: 15.0, spg: 0.6, bpg: 0.4, fg: 50, tp: 20,
+                    emoji: "🎨" },
+                { name: "Luc Longley", pos: "C", ppg: 6.5, apg: 1.5, rpg: 5.0, spg: 0.4, bpg: 0.6, fg: 48, tp: 0,
+                    emoji: "🇦🇺" },
+            ],
+            "Bulls|2010s": [
+                { name: "Derrick Rose", pos: "PG", ppg: 22.5, apg: 7.2, rpg: 4.0, spg: 1.0, bpg: 0.4, fg: 45, tp: 32,
+                    emoji: "🌹" },
+                { name: "Zach LaVine", pos: "SG", ppg: 24.5, apg: 4.2, rpg: 4.8, spg: 0.8, bpg: 0.3, fg: 46, tp: 37,
+                    emoji: "⚡" },
+                { name: "Jimmy Butler", pos: "SF", ppg: 20.0, apg: 4.2, rpg: 5.6, spg: 1.8, bpg: 0.5, fg: 46, tp: 34,
+                    emoji: "🔥" },
+                { name: "Lauri Markkanen", pos: "PF", ppg: 16.2, apg: 1.8, rpg: 7.0, spg: 0.6, bpg: 0.5, fg: 44, tp: 36,
+                    emoji: "🇫🇮" },
+                { name: "Joakim Noah", pos: "C", ppg: 10.2, apg: 4.2, rpg: 10.5, spg: 1.0, bpg: 1.4, fg: 50, tp: 0,
+                    emoji: "🦁" },
+            ],
 
-    // ---- BULLS ----
-    "Bulls|1990s": [
-        { name: "Steve Kerr", pos: "PG", ppg: 7.5, apg: 2.5, rpg: 1.5, spg: 0.6, bpg: 0.1, fg: 50, tp: 45, emoji: "🎯" },
-        { name: "Michael Jordan", pos: "SG", ppg: 30.1, apg: 5.3, rpg: 6.2, spg: 2.3, bpg: 0.8, fg: 50, tp: 33, emoji: "🐐" },
-        { name: "Scottie Pippen", pos: "SF", ppg: 18.1, apg: 6.8, rpg: 7.0, spg: 2.0, bpg: 0.9, fg: 48, tp: 33, emoji: "🦸" },
-        { name: "Dennis Rodman", pos: "PF", ppg: 5.2, apg: 2.0, rpg: 15.0, spg: 0.6, bpg: 0.4, fg: 50, tp: 20, emoji: "🎨" },
-        { name: "Luc Longley", pos: "C", ppg: 6.5, apg: 1.5, rpg: 5.0, spg: 0.4, bpg: 0.6, fg: 48, tp: 0, emoji: "🇦🇺" },
-    ],
-    "Bulls|2010s": [
-        { name: "Derrick Rose", pos: "PG", ppg: 22.5, apg: 7.2, rpg: 4.0, spg: 1.0, bpg: 0.4, fg: 45, tp: 32, emoji: "🌹" },
-        { name: "Zach LaVine", pos: "SG", ppg: 24.5, apg: 4.2, rpg: 4.8, spg: 0.8, bpg: 0.3, fg: 46, tp: 37, emoji: "⚡" },
-        { name: "Jimmy Butler", pos: "SF", ppg: 20.0, apg: 4.2, rpg: 5.6, spg: 1.8, bpg: 0.5, fg: 46, tp: 34, emoji: "🔥" },
-        { name: "Lauri Markkanen", pos: "PF", ppg: 16.2, apg: 1.8, rpg: 7.0, spg: 0.6, bpg: 0.5, fg: 44, tp: 36, emoji: "🇫🇮" },
-        { name: "Joakim Noah", pos: "C", ppg: 10.2, apg: 4.2, rpg: 10.5, spg: 1.0, bpg: 1.4, fg: 50, tp: 0, emoji: "🦁" },
-    ],
+            // ---- WARRIORS ----
+            "Warriors|2010s": [
+                { name: "Stephen Curry", pos: "PG", ppg: 26.4, apg: 6.8, rpg: 5.0, spg: 1.6, bpg: 0.2, fg: 48, tp: 43,
+                    emoji: "🏹" },
+                { name: "Klay Thompson", pos: "SG", ppg: 21.5, apg: 2.4, rpg: 3.8, spg: 0.9, bpg: 0.5, fg: 46, tp: 42,
+                    emoji: "🎯" },
+                { name: "Kevin Durant", pos: "SF", ppg: 27.4, apg: 5.2, rpg: 7.0, spg: 1.2, bpg: 1.2, fg: 50, tp: 38,
+                    emoji: "💀" },
+                { name: "Draymond Green", pos: "PF", ppg: 10.2, apg: 7.0, rpg: 7.8, spg: 1.4, bpg: 1.2, fg: 45, tp: 31,
+                    emoji: "🗣️" },
+                { name: "Andrew Bogut", pos: "C", ppg: 8.5, apg: 2.2, rpg: 9.0, spg: 0.6, bpg: 1.6, fg: 55, tp: 0,
+                    emoji: "🇦🇺" },
+            ],
+            "Warriors|2020s": [
+                { name: "Chris Paul", pos: "PG", ppg: 16.2, apg: 9.0, rpg: 4.6, spg: 1.6, bpg: 0.2, fg: 48, tp: 37,
+                    emoji: "🧠" },
+                { name: "Klay Thompson", pos: "SG", ppg: 21.5, apg: 2.4, rpg: 3.8, spg: 0.9, bpg: 0.5, fg: 46, tp: 42,
+                    emoji: "🎯" },
+                { name: "Andrew Wiggins", pos: "SF", ppg: 18.6, apg: 2.8, rpg: 4.8, spg: 1.0, bpg: 0.6, fg: 47, tp: 38,
+                    emoji: "🇨🇦" },
+                { name: "Draymond Green", pos: "PF", ppg: 10.2, apg: 7.0, rpg: 7.8, spg: 1.4, bpg: 1.2, fg: 45, tp: 31,
+                    emoji: "🗣️" },
+                { name: "Kevon Looney", pos: "C", ppg: 6.5, apg: 2.5, rpg: 8.0, spg: 0.6, bpg: 0.6, fg: 55, tp: 0,
+                    emoji: "💪" },
+            ],
 
-    // ---- WARRIORS ----
-    "Warriors|2010s": [
-        { name: "Stephen Curry", pos: "PG", ppg: 26.4, apg: 6.8, rpg: 5.0, spg: 1.6, bpg: 0.2, fg: 48, tp: 43, emoji: "🏹" },
-        { name: "Klay Thompson", pos: "SG", ppg: 21.5, apg: 2.4, rpg: 3.8, spg: 0.9, bpg: 0.5, fg: 46, tp: 42, emoji: "🎯" },
-        { name: "Kevin Durant", pos: "SF", ppg: 27.4, apg: 5.2, rpg: 7.0, spg: 1.2, bpg: 1.2, fg: 50, tp: 38, emoji: "💀" },
-        { name: "Draymond Green", pos: "PF", ppg: 10.2, apg: 7.0, rpg: 7.8, spg: 1.4, bpg: 1.2, fg: 45, tp: 31, emoji: "🗣️" },
-        { name: "Andrew Bogut", pos: "C", ppg: 8.5, apg: 2.2, rpg: 9.0, spg: 0.6, bpg: 1.6, fg: 55, tp: 0, emoji: "🇦🇺" },
-    ],
-    "Warriors|2020s": [
-        { name: "Chris Paul", pos: "PG", ppg: 16.2, apg: 9.0, rpg: 4.6, spg: 1.6, bpg: 0.2, fg: 48, tp: 37, emoji: "🧠" },
-        { name: "Klay Thompson", pos: "SG", ppg: 21.5, apg: 2.4, rpg: 3.8, spg: 0.9, bpg: 0.5, fg: 46, tp: 42, emoji: "🎯" },
-        { name: "Andrew Wiggins", pos: "SF", ppg: 18.6, apg: 2.8, rpg: 4.8, spg: 1.0, bpg: 0.6, fg: 47, tp: 38, emoji: "🇨🇦" },
-        { name: "Draymond Green", pos: "PF", ppg: 10.2, apg: 7.0, rpg: 7.8, spg: 1.4, bpg: 1.2, fg: 45, tp: 31, emoji: "🗣️" },
-        { name: "Kevon Looney", pos: "C", ppg: 6.5, apg: 2.5, rpg: 8.0, spg: 0.6, bpg: 0.6, fg: 55, tp: 0, emoji: "💪" },
-    ],
+            // ---- SPURS ----
+            "Spurs|2000s": [
+                { name: "Tony Parker", pos: "PG", ppg: 18.6, apg: 6.2, rpg: 3.2, spg: 1.0, bpg: 0.1, fg: 49, tp: 34,
+                    emoji: "🇫🇷" },
+                { name: "Manu Ginobili", pos: "SG", ppg: 15.8, apg: 4.2, rpg: 4.0, spg: 1.4, bpg: 0.4, fg: 45, tp: 37,
+                    emoji: "🇦🇷" },
+                { name: "Kawhi Leonard", pos: "SF", ppg: 19.2, apg: 2.8, rpg: 6.4, spg: 1.8, bpg: 0.8, fg: 49, tp: 38,
+                    emoji: "🤖" },
+                { name: "Tim Duncan", pos: "PF", ppg: 21.5, apg: 3.2, rpg: 11.0, spg: 0.8, bpg: 2.2, fg: 51, tp: 20,
+                    emoji: "🏀" },
+                { name: "David Robinson", pos: "C", ppg: 21.6, apg: 2.8, rpg: 10.6, spg: 1.4, bpg: 3.0, fg: 52, tp: 0,
+                    emoji: "⚓" },
+            ],
+            "Spurs|2010s": [
+                { name: "Dejounte Murray", pos: "PG", ppg: 15.4, apg: 5.8, rpg: 5.8, spg: 1.6, bpg: 0.3, fg: 46, tp: 33,
+                    emoji: "⭐" },
+                { name: "DeMar DeRozan", pos: "SG", ppg: 22.2, apg: 4.8, rpg: 5.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 30,
+                    emoji: "🇨🇦" },
+                { name: "Kawhi Leonard", pos: "SF", ppg: 19.2, apg: 2.8, rpg: 6.4, spg: 1.8, bpg: 0.8, fg: 49, tp: 38,
+                    emoji: "🤖" },
+                { name: "LaMarcus Aldridge", pos: "PF", ppg: 21.4, apg: 2.0, rpg: 8.4, spg: 0.6, bpg: 1.2, fg: 48, tp: 32,
+                    emoji: "🎯" },
+                { name: "Pau Gasol", pos: "C", ppg: 18.8, apg: 3.5, rpg: 9.5, spg: 0.5, bpg: 1.4, fg: 52, tp: 25,
+                    emoji: "🇪🇸" },
+            ],
 
-    // ---- SPURS ----
-    "Spurs|2000s": [
-        { name: "Tony Parker", pos: "PG", ppg: 18.6, apg: 6.2, rpg: 3.2, spg: 1.0, bpg: 0.1, fg: 49, tp: 34, emoji: "🇫🇷" },
-        { name: "Manu Ginobili", pos: "SG", ppg: 15.8, apg: 4.2, rpg: 4.0, spg: 1.4, bpg: 0.4, fg: 45, tp: 37, emoji: "🇦🇷" },
-        { name: "Kawhi Leonard", pos: "SF", ppg: 19.2, apg: 2.8, rpg: 6.4, spg: 1.8, bpg: 0.8, fg: 49, tp: 38, emoji: "🤖" },
-        { name: "Tim Duncan", pos: "PF", ppg: 21.5, apg: 3.2, rpg: 11.0, spg: 0.8, bpg: 2.2, fg: 51, tp: 20, emoji: "🏀" },
-        { name: "David Robinson", pos: "C", ppg: 21.6, apg: 2.8, rpg: 10.6, spg: 1.4, bpg: 3.0, fg: 52, tp: 0, emoji: "⚓" },
-    ],
-    "Spurs|2010s": [
-        { name: "Dejounte Murray", pos: "PG", ppg: 15.4, apg: 5.8, rpg: 5.8, spg: 1.6, bpg: 0.3, fg: 46, tp: 33, emoji: "⭐" },
-        { name: "DeMar DeRozan", pos: "SG", ppg: 22.2, apg: 4.8, rpg: 5.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 30, emoji: "🇨🇦" },
-        { name: "Kawhi Leonard", pos: "SF", ppg: 19.2, apg: 2.8, rpg: 6.4, spg: 1.8, bpg: 0.8, fg: 49, tp: 38, emoji: "🤖" },
-        { name: "LaMarcus Aldridge", pos: "PF", ppg: 21.4, apg: 2.0, rpg: 8.4, spg: 0.6, bpg: 1.2, fg: 48, tp: 32, emoji: "🎯" },
-        { name: "Pau Gasol", pos: "C", ppg: 18.8, apg: 3.5, rpg: 9.5, spg: 0.5, bpg: 1.4, fg: 52, tp: 25, emoji: "🇪🇸" },
-    ],
+            // ---- HEAT ----
+            "Heat|2010s": [
+                { name: "Mario Chalmers", pos: "PG", ppg: 8.5, apg: 3.8, rpg: 2.5, spg: 1.5, bpg: 0.2, fg: 42, tp: 36,
+                    emoji: "🎯" },
+                { name: "Dwyane Wade", pos: "SG", ppg: 22.4, apg: 5.4, rpg: 5.0, spg: 1.6, bpg: 0.8, fg: 49, tp: 29,
+                    emoji: "🔥" },
+                { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35,
+                    emoji: "👑" },
+                { name: "Chris Bosh", pos: "PF", ppg: 17.8, apg: 2.0, rpg: 7.6, spg: 0.8, bpg: 0.8, fg: 49, tp: 35,
+                    emoji: "🦖" },
+                { name: "Udonis Haslem", pos: "C", ppg: 4.5, apg: 0.5, rpg: 5.0, spg: 0.3, bpg: 0.2, fg: 48, tp: 0,
+                    emoji: "🔥" },
+            ],
 
-    // ---- HEAT ----
-    "Heat|2010s": [
-        { name: "Mario Chalmers", pos: "PG", ppg: 8.5, apg: 3.8, rpg: 2.5, spg: 1.5, bpg: 0.2, fg: 42, tp: 36, emoji: "🎯" },
-        { name: "Dwyane Wade", pos: "SG", ppg: 22.4, apg: 5.4, rpg: 5.0, spg: 1.6, bpg: 0.8, fg: 49, tp: 29, emoji: "🔥" },
-        { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35, emoji: "👑" },
-        { name: "Chris Bosh", pos: "PF", ppg: 17.8, apg: 2.0, rpg: 7.6, spg: 0.8, bpg: 0.8, fg: 49, tp: 35, emoji: "🦖" },
-        { name: "Udonis Haslem", pos: "C", ppg: 4.5, apg: 0.5, rpg: 5.0, spg: 0.3, bpg: 0.2, fg: 48, tp: 0, emoji: "🔥" },
-    ],
+            // ---- NUGGETS ----
+            "Nuggets|2020s": [
+                { name: "Jamal Murray", pos: "PG", ppg: 21.2, apg: 6.2, rpg: 4.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 38,
+                    emoji: "🇨🇦" },
+                { name: "Kentavious Caldwell-Pope", pos: "SG", ppg: 12.0, apg: 2.5, rpg: 3.0, spg: 1.5, bpg: 0.4, fg: 45,
+                    tp: 38, emoji: "🎯" },
+                { name: "Michael Porter Jr.", pos: "SF", ppg: 16.4, apg: 1.8, rpg: 6.4, spg: 0.8, bpg: 0.6, fg: 47, tp: 40,
+                    emoji: "🎯" },
+                { name: "Aaron Gordon", pos: "PF", ppg: 14.6, apg: 3.0, rpg: 6.0, spg: 0.8, bpg: 0.6, fg: 52, tp: 32,
+                    emoji: "✈️" },
+                { name: "Nikola Jokic", pos: "C", ppg: 26.4, apg: 9.0, rpg: 12.4, spg: 1.2, bpg: 0.9, fg: 58, tp: 35,
+                    emoji: "🐐" },
+            ],
 
-    // ---- NUGGETS ----
-    "Nuggets|2020s": [
-        { name: "Jamal Murray", pos: "PG", ppg: 21.2, apg: 6.2, rpg: 4.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 38, emoji: "🇨🇦" },
-        { name: "Kentavious Caldwell-Pope", pos: "SG", ppg: 12.0, apg: 2.5, rpg: 3.0, spg: 1.5, bpg: 0.4, fg: 45, tp: 38, emoji: "🎯" },
-        { name: "Michael Porter Jr.", pos: "SF", ppg: 16.4, apg: 1.8, rpg: 6.4, spg: 0.8, bpg: 0.6, fg: 47, tp: 40, emoji: "🎯" },
-        { name: "Aaron Gordon", pos: "PF", ppg: 14.6, apg: 3.0, rpg: 6.0, spg: 0.8, bpg: 0.6, fg: 52, tp: 32, emoji: "✈️" },
-        { name: "Nikola Jokic", pos: "C", ppg: 26.4, apg: 9.0, rpg: 12.4, spg: 1.2, bpg: 0.9, fg: 58, tp: 35, emoji: "🐐" },
-    ],
+            // ---- 76ERS ----
+            "76ers|2010s": [
+                { name: "Ben Simmons", pos: "PG", ppg: 15.8, apg: 7.8, rpg: 8.0, spg: 1.6, bpg: 0.8, fg: 56, tp: 15,
+                    emoji: "🦘" },
+                { name: "Tyrese Maxey", pos: "SG", ppg: 20.3, apg: 4.3, rpg: 3.5, spg: 1.2, bpg: 0.3, fg: 46, tp: 38,
+                    emoji: "⚡" },
+                { name: "Jimmy Butler", pos: "SF", ppg: 20.0, apg: 4.2, rpg: 5.6, spg: 1.8, bpg: 0.5, fg: 46, tp: 34,
+                    emoji: "🔥" },
+                { name: "Tobias Harris", pos: "PF", ppg: 17.2, apg: 2.8, rpg: 6.8, spg: 0.8, bpg: 0.6, fg: 47, tp: 36,
+                    emoji: "🎯" },
+                { name: "Joel Embiid", pos: "C", ppg: 27.2, apg: 4.2, rpg: 10.8, spg: 1.0, bpg: 1.8, fg: 48, tp: 34,
+                    emoji: "🌍" },
+            ],
 
-    // ---- 76ERS ----
-    "76ers|2010s": [
-        { name: "Ben Simmons", pos: "PG", ppg: 15.8, apg: 7.8, rpg: 8.0, spg: 1.6, bpg: 0.8, fg: 56, tp: 15, emoji: "🦘" },
-        { name: "Tyrese Maxey", pos: "SG", ppg: 20.3, apg: 4.3, rpg: 3.5, spg: 1.2, bpg: 0.3, fg: 46, tp: 38, emoji: "⚡" },
-        { name: "Jimmy Butler", pos: "SF", ppg: 20.0, apg: 4.2, rpg: 5.6, spg: 1.8, bpg: 0.5, fg: 46, tp: 34, emoji: "🔥" },
-        { name: "Tobias Harris", pos: "PF", ppg: 17.2, apg: 2.8, rpg: 6.8, spg: 0.8, bpg: 0.6, fg: 47, tp: 36, emoji: "🎯" },
-        { name: "Joel Embiid", pos: "C", ppg: 27.2, apg: 4.2, rpg: 10.8, spg: 1.0, bpg: 1.8, fg: 48, tp: 34, emoji: "🌍" },
-    ],
+            // ---- BUCKS ----
+            "Bucks|2020s": [
+                { name: "Damian Lillard", pos: "PG", ppg: 26.2, apg: 6.8, rpg: 4.4, spg: 1.0, bpg: 0.3, fg: 44, tp: 38,
+                    emoji: "⌚" },
+                { name: "Jrue Holiday", pos: "SG", ppg: 18.4, apg: 6.8, rpg: 4.6, spg: 1.6, bpg: 0.5, fg: 47, tp: 38,
+                    emoji: "🛡️" },
+                { name: "Khris Middleton", pos: "SF", ppg: 20.2, apg: 4.8, rpg: 5.4, spg: 1.0, bpg: 0.2, fg: 46, tp: 39,
+                    emoji: "🎯" },
+                { name: "Giannis Antetokounmpo", pos: "PF", ppg: 29.4, apg: 5.8, rpg: 11.0, spg: 1.2, bpg: 1.4, fg: 55,
+                    tp: 30, emoji: "🦌" },
+                { name: "Brook Lopez", pos: "C", ppg: 15.8, apg: 1.6, rpg: 6.2, spg: 0.6, bpg: 2.0, fg: 48, tp: 36,
+                    emoji: "📏" },
+            ],
 
-    // ---- BUCKS ----
-    "Bucks|2020s": [
-        { name: "Damian Lillard", pos: "PG", ppg: 26.2, apg: 6.8, rpg: 4.4, spg: 1.0, bpg: 0.3, fg: 44, tp: 38, emoji: "⌚" },
-        { name: "Jrue Holiday", pos: "SG", ppg: 18.4, apg: 6.8, rpg: 4.6, spg: 1.6, bpg: 0.5, fg: 47, tp: 38, emoji: "🛡️" },
-        { name: "Khris Middleton", pos: "SF", ppg: 20.2, apg: 4.8, rpg: 5.4, spg: 1.0, bpg: 0.2, fg: 46, tp: 39, emoji: "🎯" },
-        { name: "Giannis Antetokounmpo", pos: "PF", ppg: 29.4, apg: 5.8, rpg: 11.0, spg: 1.2, bpg: 1.4, fg: 55, tp: 30, emoji: "🦌" },
-        { name: "Brook Lopez", pos: "C", ppg: 15.8, apg: 1.6, rpg: 6.2, spg: 0.6, bpg: 2.0, fg: 48, tp: 36, emoji: "📏" },
-    ],
+            // ---- SUNS ----
+            "Suns|2020s": [
+                { name: "Chris Paul", pos: "PG", ppg: 16.2, apg: 9.0, rpg: 4.6, spg: 1.6, bpg: 0.2, fg: 48, tp: 37,
+                    emoji: "🧠" },
+                { name: "Devin Booker", pos: "SG", ppg: 26.8, apg: 5.6, rpg: 5.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 36,
+                    emoji: "📖" },
+                { name: "Kevin Durant", pos: "SF", ppg: 27.4, apg: 5.2, rpg: 7.0, spg: 1.2, bpg: 1.2, fg: 50, tp: 38,
+                    emoji: "💀" },
+                { name: "Jusuf Nurkic", pos: "C", ppg: 14.5, apg: 3.8, rpg: 10.0, spg: 1.0, bpg: 0.8, fg: 52, tp: 20,
+                    emoji: "🇧🇦" },
+                { name: "Keita Bates-Diop", pos: "PF", ppg: 7.5, apg: 1.0, rpg: 3.0, spg: 0.6, bpg: 0.3, fg: 48, tp: 35,
+                    emoji: "💪" },
+            ],
 
-    // ---- SUNS ----
-    "Suns|2020s": [
-        { name: "Chris Paul", pos: "PG", ppg: 16.2, apg: 9.0, rpg: 4.6, spg: 1.6, bpg: 0.2, fg: 48, tp: 37, emoji: "🧠" },
-        { name: "Devin Booker", pos: "SG", ppg: 26.8, apg: 5.6, rpg: 5.0, spg: 1.0, bpg: 0.4, fg: 47, tp: 36, emoji: "📖" },
-        { name: "Kevin Durant", pos: "SF", ppg: 27.4, apg: 5.2, rpg: 7.0, spg: 1.2, bpg: 1.2, fg: 50, tp: 38, emoji: "💀" },
-        { name: "Jusuf Nurkic", pos: "C", ppg: 14.5, apg: 3.8, rpg: 10.0, spg: 1.0, bpg: 0.8, fg: 52, tp: 20, emoji: "🇧🇦" },
-        { name: "Keita Bates-Diop", pos: "PF", ppg: 7.5, apg: 1.0, rpg: 3.0, spg: 0.6, bpg: 0.3, fg: 48, tp: 35, emoji: "💪" },
-    ],
+            // ---- MAVERICKS ----
+            "Mavericks|2010s": [
+                { name: "Luka Doncic", pos: "PG", ppg: 24.4, apg: 8.6, rpg: 8.0, spg: 1.0, bpg: 0.6, fg: 46, tp: 34,
+                    emoji: "🇸🇮" },
+                { name: "Jason Terry", pos: "SG", ppg: 16.6, apg: 3.8, rpg: 2.4, spg: 1.2, bpg: 0.2, fg: 46, tp: 38,
+                    emoji: "🎯" },
+                { name: "Shawn Marion", pos: "SF", ppg: 12.5, apg: 2.1, rpg: 7.4, spg: 1.1, bpg: 0.6, fg: 44, tp: 38,
+                    emoji: "🇩🇪" },
+                { name: "Dirk Nowitzki", pos: "PF", ppg: 21.2, apg: 2.6, rpg: 7.8, spg: 0.8, bpg: 0.8, fg: 47, tp: 38,
+                    emoji: "🇩🇪" },
+                { name: "Tyson Chandler", pos: "C", ppg: 10.3, apg: 1.1, rpg: 11.5, spg: 0.6, bpg: 1.2, fg: 66, tp: 34,
+                    emoji: "🇸🇮" },
+            ],
+            "Mavericks|2020s": [
+                { name: "Luka Doncic", pos: "PG", ppg: 32.4, apg: 9.0, rpg: 8.6, spg: 1.4, bpg: 0.6, fg: 49, tp: 38,
+                    emoji: "🇸🇮" },
+                { name: "Kyrie Irving", pos: "SG", ppg: 25.6, apg: 5.2, rpg: 4.8, spg: 1.4, bpg: 0.5, fg: 49, tp: 41,
+                    emoji: "🌍" },
+                { name: "Tim Hardaway Jr.", pos: "SF", ppg: 15.8, apg: 2.0, rpg: 3.5, spg: 0.6, bpg: 0.1, fg: 43, tp: 38,
+                    emoji: "🎯" },
+                { name: "P.J. Washington", pos: "PF", ppg: 13.6, apg: 1.8, rpg: 5.3, spg: 0.9, bpg: 0.8, fg: 46, tp: 36,
+                    emoji: "💪" },
+                { name: "Daniel Gafford", pos: "C", ppg: 10.9, apg: 1.6, rpg: 6.9, spg: 0.7, bpg: 2.1, fg: 72, tp: 0,
+                    emoji: "🔥" },
+            ],
 
-    // ---- MAVERICKS ----
-    "Mavericks|2010s": [
-        { name: "Luka Doncic", pos: "PG", ppg: 24.4, apg: 8.6, rpg: 8.0, spg: 1.0, bpg: 0.6, fg: 46, tp: 34, emoji: "🇸🇮" },
-        { name: "Jason Terry", pos: "SG", ppg: 16.6, apg: 3.8, rpg: 2.4, spg: 1.2, bpg: 0.2, fg: 46, tp: 38, emoji: "🎯" },
-        { name: "Shawm Marion", pos: "SF", ppg: 12.5, apg: 2.1, rpg: 7.4, spg: 1.1, bpg: 0.6, fg: 44, tp: 38, emoji: "🇩🇪" },
-        { name: "Dirk Nowitzki", pos: "PF", ppg: 21.2, apg: 2.6, rpg: 7.8, spg: 0.8, bpg: 0.8, fg: 47, tp: 38, emoji: "🇩🇪" },
-        { name: "Tyson Chandler", pos: "C", ppg: 10.3, apg: 1.1, rpg: 11.5, spg: 0.6, bpg: 1.2, fg: 66, tp: 34, emoji: "🇸🇮" },
-    ],
-    "Mavericks|2020s": [
-        { name: "Luka Doncic", pos: "PG", ppg: 32.4, apg: 9.0, rpg: 8.6, spg: 1.4, bpg: 0.6, fg: 49, tp: 38, emoji: "🇸🇮" },
-        { name: "Kyrie Irving", pos: "SG", ppg: 25.6, apg: 5.2, rpg: 4.8, spg: 1.4, bpg: 0.5, fg: 49, tp: 41, emoji: "🌍" },
-        { name: "Tim Hardaway Jr.", pos: "SF", ppg: 15.8, apg: 2.0, rpg: 3.5, spg: 0.6, bpg: 0.1, fg: 43, tp: 38, emoji: "🎯" },
-        { name: "P.J. Washington", pos: "PF", ppg: 13.6, apg: 1.8, rpg: 5.3, spg: 0.9, bpg: 0.8, fg: 46, tp: 36, emoji: "💪" },
-        { name: "Daniel Gafford", pos: "C", ppg: 10.9, apg: 1.6, rpg: 6.9, spg: 0.7, bpg: 2.1, fg: 72, tp: 0, emoji: "🔥" },
-    ],
+            // ---- THUNDER ----
+            "Thunder|2020s": [
+                { name: "Shai Gilgeous-Alexander", pos: "PG", ppg: 30.8, apg: 6.2, rpg: 5.4, spg: 2.0, bpg: 0.8, fg: 53,
+                    tp: 34, emoji: "🇨🇦" },
+                { name: "Josh Giddey", pos: "SG", ppg: 16.6, apg: 6.2, rpg: 7.9, spg: 0.8, bpg: 0.6, fg: 47, tp: 33,
+                    emoji: "🇦🇺" },
+                { name: "Jalen Williams", pos: "SF", ppg: 19.2, apg: 4.4, rpg: 4.0, spg: 1.6, bpg: 0.6, fg: 54, tp: 42,
+                    emoji: "⭐" },
+                { name: "Chet Holmgren", pos: "PF", ppg: 16.6, apg: 2.4, rpg: 8.0, spg: 0.8, bpg: 2.6, fg: 53, tp: 37,
+                    emoji: "📏" },
+                { name: "Isaiah Hartenstein", pos: "C", ppg: 8.0, apg: 2.5, rpg: 8.3, spg: 0.9, bpg: 1.1, fg: 58, tp: 0,
+                    emoji: "🇩🇪" },
+            ],
 
-    // ---- THUNDER ----
-    "Thunder|2020s": [
-        { name: "Shai Gilgeous-Alexander", pos: "PG", ppg: 30.8, apg: 6.2, rpg: 5.4, spg: 2.0, bpg: 0.8, fg: 53, tp: 34, emoji: "🇨🇦" },
-        { name: "Josh Giddey", pos: "SG", ppg: 16.6, apg: 6.2, rpg: 7.9, spg: 0.8, bpg: 0.6, fg: 47, tp: 33, emoji: "🇦🇺" },
-        { name: "Jalen Williams", pos: "SF", ppg: 19.2, apg: 4.4, rpg: 4.0, spg: 1.6, bpg: 0.6, fg: 54, tp: 42, emoji: "⭐" },
-        { name: "Chet Holmgren", pos: "PF", ppg: 16.6, apg: 2.4, rpg: 8.0, spg: 0.8, bpg: 2.6, fg: 53, tp: 37, emoji: "📏" },
-        { name: "Isaiah Hartenstein", pos: "C", ppg: 8.0, apg: 2.5, rpg: 8.3, spg: 0.9, bpg: 1.1, fg: 58, tp: 0, emoji: "🇩🇪" },
-    ],
+            // ---- CAVALIERS ----
+            "Cavaliers|2010s": [
+                { name: "Kyrie Irving", pos: "PG", ppg: 22.8, apg: 5.8, rpg: 3.4, spg: 1.4, bpg: 0.4, fg: 47, tp: 39,
+                    emoji: "🌍" },
+                { name: "Dwyane Wade", pos: "SG", ppg: 18.2, apg: 4.2, rpg: 4.2, spg: 1.4, bpg: 0.6, fg: 45, tp: 29,
+                    emoji: "🔥" },
+                { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35,
+                    emoji: "👑" },
+                { name: "Kevin Love", pos: "PF", ppg: 17.6, apg: 2.4, rpg: 9.8, spg: 0.6, bpg: 0.4, fg: 43, tp: 37,
+                    emoji: "❤️" },
+                { name: "Tristan Thompson", pos: "C", ppg: 8.0, apg: 1.0, rpg: 8.0, spg: 0.5, bpg: 0.5, fg: 52, tp: 0,
+                    emoji: "🇨🇦" },
+            ],
 
-    // ---- CAVALIERS ----
-    "Cavaliers|2010s": [
-        { name: "Kyrie Irving", pos: "PG", ppg: 22.8, apg: 5.8, rpg: 3.4, spg: 1.4, bpg: 0.4, fg: 47, tp: 39, emoji: "🌍" },
-        { name: "Dwyane Wade", pos: "SG", ppg: 18.2, apg: 4.2, rpg: 4.2, spg: 1.4, bpg: 0.6, fg: 45, tp: 29, emoji: "🔥" },
-        { name: "LeBron James", pos: "SF", ppg: 27.0, apg: 8.2, rpg: 7.4, spg: 1.6, bpg: 0.8, fg: 50, tp: 35, emoji: "👑" },
-        { name: "Kevin Love", pos: "PF", ppg: 17.6, apg: 2.4, rpg: 9.8, spg: 0.6, bpg: 0.4, fg: 43, tp: 37, emoji: "❤️" },
-        { name: "Tristan Thompson", pos: "C", ppg: 8.0, apg: 1.0, rpg: 8.0, spg: 0.5, bpg: 0.5, fg: 52, tp: 0, emoji: "🇨🇦" },
-    ],
+            // ---- CLIPPERS ----
+            "Clippers|2020s": [
+                { name: "James Harden", pos: "PG", ppg: 21.2, apg: 7.8, rpg: 5.2, spg: 1.4, bpg: 0.4, fg: 44, tp: 35,
+                    emoji: "🧔" },
+                { name: "Paul George", pos: "SG", ppg: 22.6, apg: 4.4, rpg: 5.6, spg: 1.6, bpg: 0.4, fg: 45, tp: 38,
+                    emoji: "🎯" },
+                { name: "Kawhi Leonard", pos: "SF", ppg: 23.8, apg: 4.2, rpg: 6.2, spg: 1.8, bpg: 0.6, fg: 49, tp: 38,
+                    emoji: "🤖" },
+                { name: "P.J. Tucker", pos: "PF", ppg: 4.5, apg: 0.8, rpg: 4.5, spg: 0.6, bpg: 0.2, fg: 41, tp: 35,
+                    emoji: "💪" },
+                { name: "Ivica Zubac", pos: "C", ppg: 11.7, apg: 1.4, rpg: 9.2, spg: 0.4, bpg: 1.2, fg: 62, tp: 0,
+                    emoji: "🇭🇷" },
+            ],
 
-    // ---- CLIPPERS ----
-    "Clippers|2020s": [
-        { name: "James Harden", pos: "PG", ppg: 21.2, apg: 7.8, rpg: 5.2, spg: 1.4, bpg: 0.4, fg: 44, tp: 35, emoji: "🧔" },
-        { name: "Paul George", pos: "SG", ppg: 22.6, apg: 4.4, rpg: 5.6, spg: 1.6, bpg: 0.4, fg: 45, tp: 38, emoji: "🎯" },
-        { name: "Kawhi Leonard", pos: "SF", ppg: 23.8, apg: 4.2, rpg: 6.2, spg: 1.8, bpg: 0.6, fg: 49, tp: 38, emoji: "🤖" },
-        { name: "P.J. Tucker", pos: "PF", ppg: 4.5, apg: 0.8, rpg: 4.5, spg: 0.6, bpg: 0.2, fg: 41, tp: 35, emoji: "💪" },
-        { name: "Ivica Zubac", pos: "C", ppg: 11.7, apg: 1.4, rpg: 9.2, spg: 0.4, bpg: 1.2, fg: 62, tp: 0, emoji: "🇭🇷" },
-    ],
+            // ---- TIMBERWOLVES ----
+            "Timberwolves|2020s": [
+                { name: "Mike Conley", pos: "PG", ppg: 14.5, apg: 6.5, rpg: 3.0, spg: 1.2, bpg: 0.2, fg: 45, tp: 38,
+                    emoji: "🧠" },
+                { name: "Anthony Edwards", pos: "SG", ppg: 25.8, apg: 4.8, rpg: 5.2, spg: 1.4, bpg: 0.6, fg: 46, tp: 36,
+                    emoji: "🐺" },
+                { name: "Jaden McDaniels", pos: "SF", ppg: 10.5, apg: 1.4, rpg: 3.0, spg: 0.8, bpg: 0.6, fg: 49, tp: 35,
+                    emoji: "⭐" },
+                { name: "Karl-Anthony Towns", pos: "PF", ppg: 24.6, apg: 4.2, rpg: 9.8, spg: 0.8, bpg: 0.8, fg: 51, tp: 41,
+                    emoji: "🇩🇴" },
+                { name: "Rudy Gobert", pos: "C", ppg: 12.8, apg: 1.2, rpg: 13.0, spg: 0.6, bpg: 2.2, fg: 65, tp: 0,
+                    emoji: "🇫🇷" },
+            ],
 
-    // ---- TIMBERWOLVES ----
-    "Timberwolves|2020s": [
-        { name: "Mike Conley", pos: "PG", ppg: 14.5, apg: 6.5, rpg: 3.0, spg: 1.2, bpg: 0.2, fg: 45, tp: 38, emoji: "🧠" },
-        { name: "Anthony Edwards", pos: "SG", ppg: 25.8, apg: 4.8, rpg: 5.2, spg: 1.4, bpg: 0.6, fg: 46, tp: 36, emoji: "🐺" },
-        { name: "Jaden McDaniels", pos: "SF", ppg: 10.5, apg: 1.4, rpg: 3.0, spg: 0.8, bpg: 0.6, fg: 49, tp: 35, emoji: "⭐" },
-        { name: "Karl-Anthony Towns", pos: "PF", ppg: 24.6, apg: 4.2, rpg: 9.8, spg: 0.8, bpg: 0.8, fg: 51, tp: 41, emoji: "🇩🇴" },
-        { name: "Rudy Gobert", pos: "C", ppg: 12.8, apg: 1.2, rpg: 13.0, spg: 0.6, bpg: 2.2, fg: 65, tp: 0, emoji: "🇫🇷" },
-    ],
+            // ---- PELICANS ----
+            "Pelicans|2020s": [
+                { name: "CJ McCollum", pos: "PG", ppg: 20.8, apg: 5.6, rpg: 4.2, spg: 1.0, bpg: 0.4, fg: 46, tp: 39,
+                    emoji: "🎯" },
+                { name: "Herb Jones", pos: "SG", ppg: 11.0, apg: 2.5, rpg: 3.8, spg: 1.4, bpg: 0.8, fg: 48, tp: 33,
+                    emoji: "🛡️" },
+                { name: "Brandon Ingram", pos: "SF", ppg: 22.8, apg: 5.2, rpg: 5.6, spg: 0.8, bpg: 0.6, fg: 47, tp: 36,
+                    emoji: "📏" },
+                { name: "Zion Williamson", pos: "PF", ppg: 24.8, apg: 4.8, rpg: 6.8, spg: 1.0, bpg: 0.8, fg: 58, tp: 30,
+                    emoji: "💪" },
+                { name: "Jonas Valanciunas", pos: "C", ppg: 14.2, apg: 2.2, rpg: 10.2, spg: 0.5, bpg: 0.8, fg: 55, tp: 30,
+                    emoji: "🇱🇹" },
+            ],
 
-    // ---- PELICANS ----
-    "Pelicans|2020s": [
-        { name: "CJ McCollum", pos: "PG", ppg: 20.8, apg: 5.6, rpg: 4.2, spg: 1.0, bpg: 0.4, fg: 46, tp: 39, emoji: "🎯" },
-        { name: "Herb Jones", pos: "SG", ppg: 11.0, apg: 2.5, rpg: 3.8, spg: 1.4, bpg: 0.8, fg: 48, tp: 33, emoji: "🛡️" },
-        { name: "Brandon Ingram", pos: "SF", ppg: 22.8, apg: 5.2, rpg: 5.6, spg: 0.8, bpg: 0.6, fg: 47, tp: 36, emoji: "📏" },
-        { name: "Zion Williamson", pos: "PF", ppg: 24.8, apg: 4.8, rpg: 6.8, spg: 1.0, bpg: 0.8, fg: 58, tp: 30, emoji: "💪" },
-        { name: "Jonas Valanciunas", pos: "C", ppg: 14.2, apg: 2.2, rpg: 10.2, spg: 0.5, bpg: 0.8, fg: 55, tp: 30, emoji: "🇱🇹" },
-    ],
+            // ---- 76ERS (1980s) ----
+            "76ers|1980s": [
+                { name: "Maurice Cheeks", pos: "PG", ppg: 12.6, apg: 8.0, rpg: 3.0, spg: 2.2, bpg: 0.3, fg: 50, tp: 30,
+                    emoji: "⚡" },
+                { name: "Andrew Toney", pos: "SG", ppg: 15.8, apg: 4.5, rpg: 2.5, spg: 1.0, bpg: 0.3, fg: 48, tp: 35,
+                    emoji: "🎯" },
+                { name: "Julius Erving", pos: "SF", ppg: 22.4, apg: 4.2, rpg: 6.8, spg: 1.8, bpg: 1.4, fg: 50, tp: 28,
+                    emoji: "✈️" },
+                { name: "Charles Barkley", pos: "PF", ppg: 23.0, apg: 4.0, rpg: 11.5, spg: 1.6, bpg: 0.8, fg: 54, tp: 28,
+                    emoji: "🐷" },
+                { name: "Moses Malone", pos: "C", ppg: 24.8, apg: 1.4, rpg: 15.0, spg: 0.8, bpg: 1.6, fg: 50, tp: 0,
+                    emoji: "💪" },
+            ],
 
-    // ---- 76ERS (1980s) ----
-    "76ers|1980s": [
-        { name: "Maurice Cheeks", pos: "PG", ppg: 12.6, apg: 8.0, rpg: 3.0, spg: 2.2, bpg: 0.3, fg: 50, tp: 30, emoji: "⚡" },
-        { name: "Andrew Toney", pos: "SG", ppg: 15.8, apg: 4.5, rpg: 2.5, spg: 1.0, bpg: 0.3, fg: 48, tp: 35, emoji: "🎯" },
-        { name: "Julius Erving", pos: "SF", ppg: 22.4, apg: 4.2, rpg: 6.8, spg: 1.8, bpg: 1.4, fg: 50, tp: 28, emoji: "✈️" },
-        { name: "Charles Barkley", pos: "PF", ppg: 23.0, apg: 4.0, rpg: 11.5, spg: 1.6, bpg: 0.8, fg: 54, tp: 28, emoji: "🐷" },
-        { name: "Moses Malone", pos: "C", ppg: 24.8, apg: 1.4, rpg: 15.0, spg: 0.8, bpg: 1.6, fg: 50, tp: 0, emoji: "💪" },
-    ],
+            // ---- 76ERS (2000s) ----
+            "76ers|2000s": [
+                { name: "Allen Iverson", pos: "PG", ppg: 28.4, apg: 6.2, rpg: 4.0, spg: 2.2, bpg: 0.2, fg: 42, tp: 31,
+                    emoji: "💯" },
+                { name: "Eric Snow", pos: "SG", ppg: 8.0, apg: 5.5, rpg: 3.0, spg: 1.2, bpg: 0.1, fg: 42, tp: 25,
+                    emoji: "🛡️" },
+                { name: "Andre Iguodala", pos: "SF", ppg: 14.8, apg: 5.0, rpg: 5.8, spg: 1.6, bpg: 0.4, fg: 46, tp: 33,
+                    emoji: "🏆" },
+                { name: "Chris Webber", pos: "PF", ppg: 20.8, apg: 4.8, rpg: 9.8, spg: 1.2, bpg: 1.4, fg: 48, tp: 30,
+                    emoji: "🎨" },
+                { name: "Samuel Dalembert", pos: "C", ppg: 8.5, apg: 0.5, rpg: 8.5, spg: 0.5, bpg: 1.8, fg: 54, tp: 0,
+                    emoji: "🇭🇹" },
+            ],
 
-    // ---- 76ERS (2000s) ----
-    "76ers|2000s": [
-        { name: "Allen Iverson", pos: "PG", ppg: 28.4, apg: 6.2, rpg: 4.0, spg: 2.2, bpg: 0.2, fg: 42, tp: 31, emoji: "💯" },
-        { name: "Eric Snow", pos: "SG", ppg: 8.0, apg: 5.5, rpg: 3.0, spg: 1.2, bpg: 0.1, fg: 42, tp: 25, emoji: "🛡️" },
-        { name: "Andre Iguodala", pos: "SF", ppg: 14.8, apg: 5.0, rpg: 5.8, spg: 1.6, bpg: 0.4, fg: 46, tp: 33, emoji: "🏆" },
-        { name: "Chris Webber", pos: "PF", ppg: 20.8, apg: 4.8, rpg: 9.8, spg: 1.2, bpg: 1.4, fg: 48, tp: 30, emoji: "🎨" },
-        { name: "Samuel Dalembert", pos: "C", ppg: 8.5, apg: 0.5, rpg: 8.5, spg: 0.5, bpg: 1.8, fg: 54, tp: 0, emoji: "🇭🇹" },
-    ],
+            // ---- KNICKS ----
+            "Knicks|1990s": [
+                { name: "John Starks", pos: "PG", ppg: 16.2, apg: 4.2, rpg: 2.8, spg: 1.2, bpg: 0.2, fg: 42, tp: 36,
+                    emoji: "🔥" },
+                { name: "Greg Anthony", pos: "SG", ppg: 8.0, apg: 4.5, rpg: 2.0, spg: 1.5, bpg: 0.1, fg: 42, tp: 30,
+                    emoji: "🎯" },
+                { name: "Charles Oakley", pos: "SF", ppg: 10.8, apg: 2.6, rpg: 10.0, spg: 0.8, bpg: 0.4, fg: 47, tp: 25,
+                    emoji: "💪" },
+                { name: "Patrick Ewing", pos: "PF", ppg: 22.4, apg: 2.2, rpg: 10.4, spg: 0.8, bpg: 2.2, fg: 50, tp: 20,
+                    emoji: "🗽" },
+                { name: "Anthony Mason", pos: "C", ppg: 10.5, apg: 3.2, rpg: 8.5, spg: 0.8, bpg: 0.3, fg: 49, tp: 0,
+                    emoji: "💪" },
+            ],
 
-    // ---- KNICKS ----
-    "Knicks|1990s": [
-        { name: "John Starks", pos: "PG", ppg: 16.2, apg: 4.2, rpg: 2.8, spg: 1.2, bpg: 0.2, fg: 42, tp: 36, emoji: "🔥" },
-        { name: "Greg Anthony", pos: "SG", ppg: 8.0, apg: 4.5, rpg: 2.0, spg: 1.5, bpg: 0.1, fg: 42, tp: 30, emoji: "🎯" },
-        { name: "Charles Oakley", pos: "SF", ppg: 10.8, apg: 2.6, rpg: 10.0, spg: 0.8, bpg: 0.4, fg: 47, tp: 25, emoji: "💪" },
-        { name: "Patrick Ewing", pos: "PF", ppg: 22.4, apg: 2.2, rpg: 10.4, spg: 0.8, bpg: 2.2, fg: 50, tp: 20, emoji: "🗽" },
-        { name: "Anthony Mason", pos: "C", ppg: 10.5, apg: 3.2, rpg: 8.5, spg: 0.8, bpg: 0.3, fg: 49, tp: 0, emoji: "💪" },
-    ],
+            // ---- ROCKETS (1990s) ----
+            "Rockets|1990s": [
+                { name: "Kenny Smith", pos: "PG", ppg: 12.5, apg: 5.5, rpg: 2.5, spg: 1.0, bpg: 0.1, fg: 45, tp: 38,
+                    emoji: "🎯" },
+                { name: "Clyde Drexler", pos: "SG", ppg: 20.4, apg: 5.4, rpg: 6.2, spg: 2.0, bpg: 0.6, fg: 45, tp: 34,
+                    emoji: "✈️" },
+                { name: "Robert Horry", pos: "SF", ppg: 8.5, apg: 2.5, rpg: 5.0, spg: 1.2, bpg: 1.0, fg: 44, tp: 35,
+                    emoji: "🏆" },
+                { name: "Charles Barkley", pos: "PF", ppg: 23.0, apg: 4.0, rpg: 11.5, spg: 1.6, bpg: 0.8, fg: 54, tp: 28,
+                    emoji: "🐷" },
+                { name: "Hakeem Olajuwon", pos: "C", ppg: 23.2, apg: 2.8, rpg: 11.0, spg: 1.8, bpg: 3.4, fg: 51, tp: 20,
+                    emoji: "🇳🇬" },
+            ],
 
-    // ---- ROCKETS (1990s) ----
-    "Rockets|1990s": [
-        { name: "Kenny Smith", pos: "PG", ppg: 12.5, apg: 5.5, rpg: 2.5, spg: 1.0, bpg: 0.1, fg: 45, tp: 38, emoji: "🎯" },
-        { name: "Clyde Drexler", pos: "SG", ppg: 20.4, apg: 5.4, rpg: 6.2, spg: 2.0, bpg: 0.6, fg: 45, tp: 34, emoji: "✈️" },
-        { name: "Robert Horry", pos: "SF", ppg: 8.5, apg: 2.5, rpg: 5.0, spg: 1.2, bpg: 1.0, fg: 44, tp: 35, emoji: "🏆" },
-        { name: "Charles Barkley", pos: "PF", ppg: 23.0, apg: 4.0, rpg: 11.5, spg: 1.6, bpg: 0.8, fg: 54, tp: 28, emoji: "🐷" },
-        { name: "Hakeem Olajuwon", pos: "C", ppg: 23.2, apg: 2.8, rpg: 11.0, spg: 1.8, bpg: 3.4, fg: 51, tp: 20, emoji: "🇳🇬" },
-    ],
+            // ---- ROCKETS (2010s) ----
+            "Rockets|2010s": [
+                { name: "Chris Paul", pos: "PG", ppg: 16.2, apg: 9.0, rpg: 4.6, spg: 1.6, bpg: 0.2, fg: 48, tp: 37,
+                    emoji: "🧠" },
+                { name: "James Harden", pos: "SG", ppg: 30.4, apg: 8.8, rpg: 6.0, spg: 1.8, bpg: 0.6, fg: 44, tp: 36,
+                    emoji: "🧔" },
+                { name: "Trevor Ariza", pos: "SF", ppg: 12.8, apg: 2.5, rpg: 5.0, spg: 1.5, bpg: 0.3, fg: 42, tp: 36,
+                    emoji: "🏆" },
+                { name: "P.J. Tucker", pos: "PF", ppg: 4.5, apg: 0.8, rpg: 4.5, spg: 0.6, bpg: 0.2, fg: 41, tp: 35,
+                    emoji: "💪" },
+                { name: "Clint Capela", pos: "C", ppg: 14.2, apg: 1.2, rpg: 11.0, spg: 0.8, bpg: 1.4, fg: 65, tp: 0,
+                    emoji: "🇨🇭" },
+            ],
 
-    // ---- ROCKETS (2010s) ----
-    "Rockets|2010s": [
-        { name: "Chris Paul", pos: "PG", ppg: 16.2, apg: 9.0, rpg: 4.6, spg: 1.6, bpg: 0.2, fg: 48, tp: 37, emoji: "🧠" },
-        { name: "James Harden", pos: "SG", ppg: 30.4, apg: 8.8, rpg: 6.0, spg: 1.8, bpg: 0.6, fg: 44, tp: 36, emoji: "🧔" },
-        { name: "Trevor Ariza", pos: "SF", ppg: 12.8, apg: 2.5, rpg: 5.0, spg: 1.5, bpg: 0.3, fg: 42, tp: 36, emoji: "🏆" },
-        { name: "P.J. Tucker", pos: "PF", ppg: 4.5, apg: 0.8, rpg: 4.5, spg: 0.6, bpg: 0.2, fg: 41, tp: 35, emoji: "💪" },
-        { name: "Clint Capela", pos: "C", ppg: 14.2, apg: 1.2, rpg: 11.0, spg: 0.8, bpg: 1.4, fg: 65, tp: 0, emoji: "🇨🇭" },
-    ],
+            // ---- PISTONS ----
+            "Pistons|2000s": [
+                { name: "Chauncey Billups", pos: "PG", ppg: 16.8, apg: 5.8, rpg: 3.4, spg: 1.0, bpg: 0.2, fg: 44, tp: 38,
+                    emoji: "🎯" },
+                { name: "Rip Hamilton", pos: "SG", ppg: 18.4, apg: 3.4, rpg: 3.4, spg: 0.8, bpg: 0.2, fg: 45, tp: 35,
+                    emoji: "🎭" },
+                { name: "Tayshaun Prince", pos: "SF", ppg: 12.8, apg: 2.6, rpg: 4.8, spg: 0.6, bpg: 0.6, fg: 44, tp: 35,
+                    emoji: "📏" },
+                { name: "Rasheed Wallace", pos: "PF", ppg: 14.4, apg: 1.8, rpg: 6.8, spg: 1.0, bpg: 1.4, fg: 44, tp: 34,
+                    emoji: "🗣️" },
+                { name: "Ben Wallace", pos: "C", ppg: 6.0, apg: 1.6, rpg: 12.0, spg: 1.4, bpg: 2.2, fg: 47, tp: 0,
+                    emoji: "💪" },
+            ],
 
-    // ---- PISTONS ----
-    "Pistons|2000s": [
-        { name: "Chauncey Billups", pos: "PG", ppg: 16.8, apg: 5.8, rpg: 3.4, spg: 1.0, bpg: 0.2, fg: 44, tp: 38, emoji: "🎯" },
-        { name: "Rip Hamilton", pos: "SG", ppg: 18.4, apg: 3.4, rpg: 3.4, spg: 0.8, bpg: 0.2, fg: 45, tp: 35, emoji: "🎭" },
-        { name: "Tayshaun Prince", pos: "SF", ppg: 12.8, apg: 2.6, rpg: 4.8, spg: 0.6, bpg: 0.6, fg: 44, tp: 35, emoji: "📏" },
-        { name: "Rasheed Wallace", pos: "PF", ppg: 14.4, apg: 1.8, rpg: 6.8, spg: 1.0, bpg: 1.4, fg: 44, tp: 34, emoji: "🗣️" },
-        { name: "Ben Wallace", pos: "C", ppg: 6.0, apg: 1.6, rpg: 12.0, spg: 1.4, bpg: 2.2, fg: 47, tp: 0, emoji: "💪" },
-    ],
-
-    // ---- KINGS ----
-    "Kings|2000s": [
-        { name: "Mike Bibby", pos: "PG", ppg: 17.5, apg: 5.5, rpg: 3.5, spg: 1.2, bpg: 0.2, fg: 45, tp: 37, emoji: "🎯" },
-        { name: "Doug Christie", pos: "SG", ppg: 10.5, apg: 4.0, rpg: 4.5, spg: 2.0, bpg: 0.5, fg: 44, tp: 35, emoji: "🛡️" },
-        { name: "Peja Stojakovic", pos: "SF", ppg: 18.0, apg: 2.5, rpg: 5.0, spg: 1.0, bpg: 0.2, fg: 46, tp: 40, emoji: "🇷🇸" },
-        { name: "Chris Webber", pos: "PF", ppg: 20.8, apg: 4.8, rpg: 9.8, spg: 1.2, bpg: 1.4, fg: 48, tp: 30, emoji: "🎨" },
-        { name: "Vlade Divac", pos: "C", ppg: 14.5, apg: 3.5, rpg: 9.0, spg: 1.0, bpg: 1.2, fg: 50, tp: 25, emoji: "🇷🇸" },
-    ],
-};
+            // ---- KINGS ----
+            "Kings|2000s": [
+                { name: "Mike Bibby", pos: "PG", ppg: 17.5, apg: 5.5, rpg: 3.5, spg: 1.2, bpg: 0.2, fg: 45, tp: 37,
+                    emoji: "🎯" },
+                { name: "Doug Christie", pos: "SG", ppg: 10.5, apg: 4.0, rpg: 4.5, spg: 2.0, bpg: 0.5, fg: 44, tp: 35,
+                    emoji: "🛡️" },
+                { name: "Peja Stojakovic", pos: "SF", ppg: 18.0, apg: 2.5, rpg: 5.0, spg: 1.0, bpg: 0.2, fg: 46, tp: 40,
+                    emoji: "🇷🇸" },
+                { name: "Chris Webber", pos: "PF", ppg: 20.8, apg: 4.8, rpg: 9.8, spg: 1.2, bpg: 1.4, fg: 48, tp: 30,
+                    emoji: "🎨" },
+                { name: "Vlade Divac", pos: "C", ppg: 14.5, apg: 3.5, rpg: 9.0, spg: 1.0, bpg: 1.2, fg: 50, tp: 25,
+                    emoji: "🇷🇸" },
+            ],
+        };
 
         // Add images to all players
         for (let team in PLAYER_DB) {
@@ -2132,16 +2212,16 @@ const PLAYER_DB = {
         // ============================================================
         const COACHES = [
             { id: 'phil', name: 'Phil Jackson', bonus: 5, desc: 'Triangle offense master', tier: 'Legendary',
-            emoji: '🧘' },
+                emoji: '🧘' },
             { id: 'pop', name: 'Gregg Popovich', bonus: 4, desc: 'System basketball genius', tier: 'Legendary',
-            emoji: '🍷' },
+                emoji: '🍷' },
             { id: 'riley', name: 'Pat Riley', bonus: 4, desc: 'Showtime & grit architect', tier: 'Legendary',
-            emoji: '💼' },
+                emoji: '💼' },
             { id: 'kerr', name: 'Steve Kerr', bonus: 3, desc: 'Motion offense wizard', tier: 'Elite', emoji: '🎯' },
             { id: 'spoesltra', name: 'Erik Spoelstra', bonus: 3, desc: 'Heat culture builder', tier: 'Elite',
-            emoji: '🔥' },
+                emoji: '🔥' },
             { id: 'red', name: 'Red Auerbach', bonus: 4, desc: 'The original mastermind', tier: 'Legendary',
-            emoji: '🚬' },
+                emoji: '🚬' },
             { id: 'chuck', name: 'Chuck Daly', bonus: 3, desc: 'Bad Boys orchestrator', tier: 'Elite', emoji: '🕶️' },
             { id: 'larryb', name: 'Larry Brown', bonus: 3, desc: 'Fundamentals expert', tier: 'Elite', emoji: '📋' },
             { id: 'doc', name: 'Doc Rivers', bonus: 2, desc: 'Player-friendly coach', tier: 'Good', emoji: '🗣️' },
@@ -2182,7 +2262,7 @@ const PLAYER_DB = {
         const MAX_REROLLS = 1;
 
         // ============================================================
-        // DOM REFS (SAME AS BEFORE)
+        // DOM REFS
         // ============================================================
         const $ = id => document.getElementById(id);
         const spinBtn = $('spinBtn');
@@ -2295,6 +2375,11 @@ const PLAYER_DB = {
             const canSpin = state.round <= 5 && !isFull && !state.spinLocked;
             spinBtn.disabled = !canSpin;
             rerollBtn.disabled = state.hasUsedReroll || !state.currentSpin.players.length || isFull || state.round > 5;
+            if (state.hasUsedReroll) {
+                rerollBtn.classList.add('used');
+            } else {
+                rerollBtn.classList.remove('used');
+            }
             simBtn.disabled = !isFull || !state.hasSpunCoach || state.seasonResult !== null;
             submitBtn.disabled = !state.seasonResult || state.submittedToLeaderboard;
 
@@ -2341,7 +2426,7 @@ const PLAYER_DB = {
 
             playerPool.innerHTML = players.map(p => {
                 const isAlreadyInLineup = Object.values(state.lineup).some(lp => lp && lp.name === p.name && lp.pos === p
-                .pos);
+                    .pos);
                 const posFilled = state.lineup[p.pos] !== null;
                 const disabled = isAlreadyInLineup || posFilled;
                 const imgUrl = p.image || getPlayerImage(p.name);
@@ -2401,6 +2486,94 @@ const PLAYER_DB = {
                     `;
             }
             teamsContainer.innerHTML = html;
+        }
+
+        // ============================================================
+        // NEW: SMART POSITION-BASED RATING SYSTEM (FIXED!)
+        // ============================================================
+        function calculateTeamRatings() {
+            const positionWeights = {
+                PG: { ppg: 0.25, apg: 0.30, rpg: 0.10, spg: 0.15, bpg: 0.05, fg: 0.15 },
+                SG: { ppg: 0.30, apg: 0.15, rpg: 0.10, spg: 0.15, bpg: 0.10, fg: 0.20 },
+                SF: { ppg: 0.25, apg: 0.15, rpg: 0.20, spg: 0.10, bpg: 0.10, fg: 0.20 },
+                PF: { ppg: 0.20, apg: 0.10, rpg: 0.30, spg: 0.10, bpg: 0.15, fg: 0.15 },
+                C: { ppg: 0.20, apg: 0.05, rpg: 0.35, spg: 0.05, bpg: 0.20, fg: 0.15 },
+            };
+
+            let totalRating = 0;
+            let totalOffense = 0;
+            let totalDefense = 0;
+            let count = 0;
+
+            POSITIONS.forEach(pos => {
+                const player = state.lineup[pos];
+                if (!player) return;
+
+                const weights = positionWeights[pos] || positionWeights.SF;
+
+                let playerRating = 0;
+                let offense = 0;
+                let defense = 0;
+
+                const ppgScore = Math.min(100, (player.ppg / 35) * 100);
+                playerRating += ppgScore * weights.ppg;
+                offense += ppgScore * 0.50;
+
+                const apgScore = Math.min(100, (player.apg / 12) * 100);
+                playerRating += apgScore * weights.apg;
+                offense += apgScore * 0.30;
+
+                const rpgScore = Math.min(100, (player.rpg / 15) * 100);
+                playerRating += rpgScore * weights.rpg;
+                defense += rpgScore * 0.30;
+
+                const spgScore = Math.min(100, (player.spg / 3) * 100);
+                playerRating += spgScore * weights.spg;
+                defense += spgScore * 0.35;
+
+                const bpgScore = Math.min(100, (player.bpg / 3) * 100);
+                playerRating += bpgScore * weights.bpg;
+                defense += bpgScore * 0.35;
+
+                const fgScore = Math.min(100, (player.fg / 60) * 100);
+                playerRating += fgScore * weights.fg;
+                offense += fgScore * 0.20;
+
+                totalRating += playerRating;
+                totalOffense += offense;
+                totalDefense += defense;
+                count++;
+            });
+
+            if (count === 0) return { overall: 0, offense: 0, defense: 0 };
+
+            let overall = totalRating / count;
+            let offense = totalOffense / count;
+            let defense = totalDefense / count;
+
+            if (state.coach) {
+                overall += state.coach.bonus * 2;
+                offense += state.coach.bonus * 1.5;
+                defense += state.coach.bonus * 1.5;
+            }
+
+            const filledPositions = POSITIONS.filter(pos => state.lineup[pos] !== null).length;
+            if (filledPositions === 5) {
+                overall += 5;
+                offense += 3;
+                defense += 3;
+            }
+
+            const starCount = Object.values(state.lineup).filter(p => p && p.ppg >= 25).length;
+            if (starCount >= 3) {
+                overall += 5;
+            }
+
+            return {
+                overall: Math.min(100, Math.round(overall)),
+                offense: Math.min(100, Math.round(offense)),
+                defense: Math.min(100, Math.round(defense))
+            };
         }
 
         function updateStats() {
@@ -2706,6 +2879,9 @@ const PLAYER_DB = {
             state.spinsUsed++;
             state.spinLocked = true;
 
+            rerollBtn.classList.add('used');
+            rerollBtn.disabled = true;
+
             spinWheel.classList.remove('active');
             void spinWheel.offsetWidth;
             spinWheel.classList.add('active');
@@ -2723,7 +2899,7 @@ const PLAYER_DB = {
                 spinWheel.classList.remove('active');
                 renderLineup();
                 saveGame();
-                showToast(`Re-rolled ${team} (${era})! Spin locked until you pick.`, '🔄');
+                showToast(`Re-rolled ${team} (${era})! Re-roll used.`, '🔄');
             }, 800);
         }
 
@@ -2745,11 +2921,9 @@ const PLAYER_DB = {
             state.lineup[pos] = { ...player };
             state.round++;
 
-            // Reset spin state for next round
             state.currentSpin.players = [];
             state.currentSpin.teamEraKey = null;
             state.spinLocked = false;
-            state.hasUsedReroll = false;
 
             renderLineup();
 
@@ -2804,73 +2978,7 @@ const PLAYER_DB = {
         }
 
         // ============================================================
-        // CALCULATE RATINGS
-        // ============================================================
-        function calculateTeamRatings() {
-            const positionWeights = {
-                PG: { ppg: 0.25, apg: 0.35, rpg: 0.15, spg: 0.15, bpg: 0.05, fg: 0.05 },
-                SG: { ppg: 0.30, apg: 0.20, rpg: 0.15, spg: 0.15, bpg: 0.10, fg: 0.10 },
-                SF: { ppg: 0.25, apg: 0.20, rpg: 0.20, spg: 0.15, bpg: 0.10, fg: 0.10 },
-                PF: { ppg: 0.20, apg: 0.15, rpg: 0.30, spg: 0.10, bpg: 0.15, fg: 0.10 },
-                C: { ppg: 0.20, apg: 0.10, rpg: 0.35, spg: 0.05, bpg: 0.20, fg: 0.10 },
-            };
-
-            let totalRating = 0,
-                totalOffense = 0,
-                totalDefense = 0;
-            let count = 0;
-
-            POSITIONS.forEach(pos => {
-                const player = state.lineup[pos];
-                if (!player) return;
-
-                const weights = positionWeights[pos] || positionWeights.SF;
-
-                const playerRating =
-                    (player.ppg / 30 * weights.ppg * 100) +
-                    (player.apg / 10 * weights.apg * 100) +
-                    (player.rpg / 15 * weights.rpg * 100) +
-                    (player.spg / 3 * weights.spg * 100) +
-                    (player.bpg / 3 * weights.bpg * 100) +
-                    (player.fg / 100 * weights.fg * 100);
-
-                const playerOffense =
-                    (player.ppg / 30 * 45) +
-                    (player.apg / 10 * 25) +
-                    (player.fg / 100 * 30);
-
-                const playerDefense =
-                    (player.spg / 3 * 35) +
-                    (player.bpg / 3 * 35) +
-                    ((100 - player.fg) / 100 * 30);
-
-                totalRating += playerRating;
-                totalOffense += playerOffense;
-                totalDefense += playerDefense;
-                count++;
-            });
-
-            if (count === 0) return { overall: 0, offense: 0, defense: 0 };
-
-            let overall = totalRating / count;
-            let offense = totalOffense / count;
-            let defense = totalDefense / count;
-
-            if (state.coach) {
-                overall = Math.min(100, overall + state.coach.bonus);
-                offense = Math.min(100, offense + Math.round(state.coach.bonus * 0.5));
-                defense = Math.min(100, defense + Math.round(state.coach.bonus * 0.5));
-            }
-
-            return {
-                overall: Math.min(100, Math.round(overall)),
-                offense: Math.min(100, Math.round(offense)),
-                defense: Math.min(100, Math.round(defense))
-            };
-        }
-
-        // ============================================================
-        // SIMULATE SEASON
+        // SIMULATE SEASON (FIXED)
         // ============================================================
         function simulateSeason() {
             if (!isLineupFull()) { showToast('Fill all 5 positions first!', '⚠️'); return; }
@@ -2878,11 +2986,11 @@ const PLAYER_DB = {
             if (state.seasonResult) { showToast('Season already simulated!', '⚠️'); return; }
 
             const ratings = calculateTeamRatings();
-            const rating = ratings.overall;
+            let rating = ratings.overall;
 
-            const diffMap = { easy: 1.05, normal: 1.0, hard: 0.95, legendary: 0.88 };
+            const diffMap = { easy: 1.08, normal: 1.0, hard: 0.95, legendary: 0.90 };
             const diffMod = diffMap[state.settings.difficulty] || 1.0;
-            const finalRating = Math.min(99, Math.max(20, rating * diffMod));
+            rating = Math.min(99, Math.max(20, rating * diffMod));
 
             const seasonLen = parseInt(state.settings.seasonLength) || 82;
             let wins = 0,
@@ -2890,14 +2998,19 @@ const PLAYER_DB = {
             const schedule = [];
             let currentStreak = 0,
                 bestStreak = 0;
-            const baseWinProb = finalRating / 100;
+
+            const baseWinProb = rating / 100;
 
             for (let i = 0; i < seasonLen; i++) {
-                const variance = (Math.random() - 0.5) * 0.12;
-                let winProb = Math.min(0.94, Math.max(0.06, baseWinProb + variance));
+                const variance = (Math.random() - 0.5) * 0.08;
+                let winProb = Math.min(0.96, Math.max(0.04, baseWinProb + variance));
 
-                if (i > 60 && wins > 50) {
-                    winProb *= 0.97;
+                if (i > 65 && wins > 60) {
+                    winProb *= 0.96;
+                }
+
+                if (currentStreak > 10) {
+                    winProb = Math.min(0.96, winProb * 1.02);
                 }
 
                 if (Math.random() < winProb) {
@@ -2942,7 +3055,7 @@ const PLAYER_DB = {
             updateHeaderStats();
             renderLineup();
 
-            const expectedWins = Math.round(finalRating / 100 * seasonLen);
+            const expectedWins = Math.round(rating / 100 * seasonLen);
             let message = `🏆 Season complete! ${wins}-${losses}`;
             if (wins >= expectedWins + 5) {
                 message += ` 🎉 (Overperformed!)`;
@@ -3043,7 +3156,7 @@ const PLAYER_DB = {
             const names = players.map(p => p.name).join(', ');
             const coach = state.coach ? state.coach.name : 'No Coach';
             const record = state.seasonResult ? `${state.seasonResult.wins}-${state.seasonResult.losses}` :
-            'Not simulated';
+                'Not simulated';
             const name = state.playerName || 'Anonymous';
             const diff = state.settings.difficulty || 'normal';
             const ratings = calculateTeamRatings();
@@ -3094,7 +3207,7 @@ const PLAYER_DB = {
         // EXPORT/IMPORT
         // ============================================================
         exportDataBtn.addEventListener('click', function() {
-            const data = { version: '6.1', state: state, date: new Date().toISOString() };
+            const data = { version: '6.3', state: state, date: new Date().toISOString() };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -3193,6 +3306,10 @@ const PLAYER_DB = {
                 activeDifficulty: state.settings.difficulty || 'normal',
                 spinLocked: false,
             };
+
+            rerollBtn.classList.remove('used');
+            rerollBtn.disabled = false;
+            rerollCount.textContent = '1';
 
             coachSection.classList.remove('visible');
             statsArea.classList.remove('visible');
@@ -3385,11 +3502,9 @@ const PLAYER_DB = {
         simBtn.addEventListener('click', simulateSeason);
         submitBtn.addEventListener('click', submitToLeaderboard);
 
-        console.log('🏀 82-0 ULTIMATE EDITION v6.1 loaded!');
-        console.log('✅ FIXED: Mavericks have NO duplicates! (Luka, Kyrie, THJ, PJ Washington, Gafford)');
-        console.log('✅ FIXED: Every team has 5 UNIQUE players with all positions!');
-        console.log('✅ FIXED: Correct photos for every player!');
-        console.log('✅ NEW: Teams page showing all players with photos!');
+        console.log('🏀 82-0 ULTIMATE EDITION v6.3 loaded!');
+        console.log('✅ FIXED: Evaluation system now gives 70-80 wins for elite lineups!');
+        console.log('✅ FIXED: Re-roll disappears after use until New Game!');
         console.log('🎮 SPACE = Spin | R = Re-Roll | C = Coach | S = Simulate | L = Submit | N = New Game');
     </script>
 </body>
